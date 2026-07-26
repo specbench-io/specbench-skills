@@ -72,6 +72,16 @@ Corrections use the same loop (`feature_rename` / `scenario_rename` / `step_edit
 - **No DDD vocabulary in anything you write.** This seat speaks the product's language; the structure underneath is engineering's layer.
 - **Concise in chat too.** One-to-two-sentence proposals; list-form recaps.
 
+## Scenario style — BDD
+
+Steps are Gherkin (`Given` / `When` / `Then`, continued by `And` / `But`): Given is context, When is the action, Then is the observable outcome. Write them behaviour-driven:
+
+- **One behaviour per scenario — exactly one When.** A scenario that needs two Whens is two scenarios.
+- **Concrete examples, not abstract rules.** Real names, real values: *Given Priya's trial expires today*, not *given a user whose trial is near expiry*. The general rule lives in the model; the scenario is the example that proves it.
+- **Declarative, not imperative.** What the user achieves, not UI mechanics: *When Priya exports her data*, not *when she clicks the Export button and confirms the dialog*.
+- **Then must be observable.** Something the user or another system can verify — never internal state ("the flag is set") that no one can see.
+- **Titles name the behaviour.** *Trial expires mid-export* — a reader should know what's being proved without opening the steps.
+
 ## Bind, don't name-drop
 
 When feature or scenario prose mentions a domain entity, that mention is a formal @-mention Reference, not plain text — bindings are what stitch this layer to the model underneath.
@@ -93,7 +103,7 @@ Canonical sequences — check `*_get` / `*_list` before creating to avoid duplic
 - **Stage 1:** `feature_create` → `feature_editIntent` (the WHY, ≤500 chars — user-story style: *As a…, I want…, so that…*).
 - **Stage 2:** `actor_create` (+ `actor_setResponsibilities` / `actor_setNeeds`) · `term_create` → `term_setDefinition`.
 - **Stage 3:** `feature_editDescription` (the WHAT — behaviour and caveats, not intent, not scenarios).
-- **Stage 4:** `scenario_add` (mint scenarioId; anchor on the Outcome it exercises via the `outcome` parameter where one exists) → `step_append` per step (mint stepId; And/But must follow a non-And/But step) → bindings per *Bind, don't name-drop*.
+- **Stage 4:** `scenario_add` (mint scenarioId; anchor on the Outcome it exercises via the `outcome` parameter where one exists) → `step_append` per step (mint stepId; `keyword` is Given/When/Then/And/But — And/But must follow a non-And/But step) → bindings per *Bind, don't name-drop*.
 - **Stage 5:** `feature_linkUseCase` / `feature_linkApplication`.
 - **Any stage:** unresolved question → `decision_point_raise`; resolved in-session → `decision_point_resolve`.
 

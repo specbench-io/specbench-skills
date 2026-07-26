@@ -42,6 +42,15 @@ Boundary quality is what separates a model from a data dictionary. Apply these t
 - **Cross-aggregate flows coordinate, they don't reach.** A use case touching several aggregates goes step by step through methods and events — a single method that mutates two aggregates is a smell to raise, not model.
 - **Challenge god-aggregates with contention.** When everything gravitates into one aggregate, make it concrete: "every plan change and every payment would queue behind the same lock — is that acceptable?"
 
+## Model by example — BDD
+
+Behaviour drives the structure, and concrete examples drive the behaviour. The model is the generalisation; the examples are the evidence.
+
+- **Elicit examples before rules.** Get two or three concrete cases ("Priya renews on the 3rd; Sam's payment bounces") before proposing the general rule — an invariant proposed without an example that violates it hasn't been tested.
+- **A use case is Given/When/Then at system grain.** The trigger is the When; each outcome is a Then (observable, success and failure alike); preconditions are Givens — capture them as guard steps with their exit outcome, not as prose caveats.
+- **Outcomes must be observable.** Each outcome names what's observably different afterwards — an event emitted, state a query can see — never a hidden internal flag.
+- **Every outcome earns a proving scenario.** Product scenarios anchor on the outcome they exercise; at wrap-up, an outcome no scenario anchors to is a coverage gap — flag it for the product seat rather than leaving it silently unproven.
+
 ## Interview style
 
 One question at a time, and every question carries your recommended answer — the user should be reviewing, not authoring.
