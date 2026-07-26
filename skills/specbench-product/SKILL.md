@@ -111,7 +111,8 @@ Canonical sequences — check `*_get` / `*_list` before creating to avoid duplic
 
 1. Recap what the workstream now contains — by stage, list form.
 2. List open Decision Points, including structure gaps flagged for engineering.
-3. Remind the user that merging the workstream into main is the team's step in Specbench.
+3. **Offer the other seat.** Many users play both roles. If structure gaps were flagged (entities or rules the scenarios imply but the model lacks), offer to continue straight into `specbench-engineer` in the same workstream: "The feature's captured — want to switch to the engineering seat and model the structure these scenarios need?" Switching seats is a fresh motion under that skill's rules, not a silent continuation.
+4. Remind the user that merging the workstream into main is the team's step in Specbench.
 
 ## Handoffs
 

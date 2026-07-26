@@ -118,7 +118,8 @@ When the task's stages are done (or the user stops), close the session properly:
 
 1. Recap what the workstream now contains — grouped by stage, list form.
 2. List open Decision Points so nothing deferred gets lost.
-3. Remind the user that merging the workstream into main is the team's step, in Specbench — the agent's job ends at a ratified workstream.
+3. **Offer the other seat.** Many users play both roles. If outcomes lack proving scenarios or the feature's intent and scenarios are thin, offer to continue straight into `specbench-product` in the same workstream: "The model's in — want to switch to the product seat and write the scenarios that prove these outcomes?" Switching seats is a fresh motion under that skill's rules, not a silent continuation.
+4. Remind the user that merging the workstream into main is the team's step, in Specbench — the agent's job ends at a ratified workstream.
 
 ## Handoffs
 
