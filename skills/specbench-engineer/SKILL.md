@@ -68,6 +68,15 @@ Everything you write into the model is read by the team later — keep it lean.
 - **No invented elaboration.** Don't pad captures with plausible detail the user never said; if a field seems to want more, that's a question, not a writing prompt. Treat every word the user didn't say as a claim you're making on their behalf — if you can't point to where they said it or explicitly agreed it, it doesn't go in the model. If you think there is a reasonable point that belongs in the model but hasn't been discussed yet, raise it with the user before pushing — your judgement is welcome as a question, never as an unrequested write.
 - **Concise in chat too.** Proposals are one or two sentences; recaps are lists, not prose.
 
+## Bind, don't name-drop
+
+When any prose you write mentions another model element, that mention is a formal @-mention Reference, not plain text. Bindings are what keep the spec a graph — `graph_trace` derives invocation edges from them — so a name-drop without a binding is a broken link from day one.
+
+- **Resolve first.** `reference_search` finds the referenceable target (entity or member) and returns the `entityType`/`entityId` to bind against. Always search before binding — never guess ids.
+- **Use case / method steps:** mint a UUID `refId`, write the `{{ref:<refId>}}` token into the step text, and pass the matching binding in the `references` param of `usecase_addStep` / `usecase_editStep` / `method_addStep`. Referencing a Method or UseCase means "this step invokes that callee"; referencing one of the callee's outcomes marks an exit/branch.
+- **Feature / scenario prose:** bind with `reference_add` (caller-minted UUID), then write the matching `{{ref:<refId>}}` token into the prose via `step_edit` / `scenario_rename` / `feature_editIntent` / `feature_editDescription`.
+- **Description / summary fields** have no binding mechanism over MCP — use the element's exact model name so the mention stays searchable, and if the relationship matters structurally, express it where it can be bound (a step, a scenario) rather than burying it in a description.
+
 ## Vocabulary rules
 
 - Teach by arrival: the first time a DDD concept is instantiated, gloss it in one plain-language line (e.g. "an Aggregate — the thing that owns this rule and keeps it consistent"). Never require the vocabulary up front.
@@ -79,11 +88,10 @@ Canonical sequences — check `*_get` before creating to avoid duplicating what 
 
 - **Session start:** `project_list` → `workstream_list` → (`workstream_create`) → `workstream_activate` → `catalog_get` to load what already exists.
 - **Stage 1:** `actor_create` (+ `actor_setResponsibilities` / `actor_setNeeds` as they emerge) · `term_create` → `term_setDefinition`.
-- **Stage 2:** `usecase_create` → `usecase_setTriggerActor` / `usecase_setTriggerEvent` → `usecase_addStep` per step → `usecase_defineOutcome` per outcome (success and each failure) → `usecase_addParameter` for inputs. Give the behaviour a product-facing home: link the use case to its Feature (`feature_linkUseCase`), creating one first (`feature_create` → `feature_editIntent`) if none exists.
+- **Stage 2:** `usecase_create` → `usecase_setTriggerActor` / `usecase_setTriggerEvent` → `usecase_addStep` per step (with inline `references` bindings — see *Bind, don't name-drop*) → `usecase_defineOutcome` per outcome (success and each failure) → `usecase_addParameter` for inputs. Give the behaviour a product-facing home: link the use case to its Feature (`feature_linkUseCase`), creating one first (`feature_create` → `feature_editIntent`) if none exists.
 - **Stage 3:** `aggregate_create` → `aggregate_addProperty` / `aggregate_addEntity` → `aggregate_addInvariant` per agreed rule. Behaviour on the aggregate is its own artefact: `method_create` → `method_setInputs` → `method_defineOutcome` per outcome. Value concepts: `value_object_create` → `value_object_addInvariant`. Closed sets: `enum_create` → `enum_addCase`. Home: `bounded_context_list` → (`bounded_context_create`) → `aggregate_assignBoundedContext` / `usecase_assignBoundedContext` / `term_assignBoundedContext`.
 - **Stage 4:** `aggregate_addDomainEvent` → `aggregate_setDomainEventPayload` → wire emission (`method_setEmittedEvent` / `method_setOutcomeEmission`). Read side: `read_model_create` → `read_model_addField`. Cross-context: `integration_event_create` → `integration_event_setPayload`.
 - **Any stage:** unresolved question → `decision_point_raise`; resolved later in-session → `decision_point_resolve`.
-- **Scenario prose bindings** (when feature/scenario work happens here): every model element mentioned in scenario prose is a formal Reference, not plain text — mint a UUID, `reference_add` with it, and write the matching `{{ref:<id>}}` token into the prose (`step_edit` / `scenario_rename` / `feature_editIntent`). References anchor in feature/scenario prose only, not in use case steps.
 
 ## Wrapping up
 
