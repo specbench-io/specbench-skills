@@ -1,0 +1,19 @@
+{
+  "name": "specbench",
+  "version": "0.1.0",
+  "description": "Domain modelling skills for Specbench: guided workflows that turn any MCP-compatible agent into a Specbench modelling partner. Requires the Specbench MCP server.",
+  "author": {
+    "name": "Specbench Limited",
+    "url": "https://specbench.io"
+  },
+  "homepage": "https://specbench.io",
+  "repository": "https://github.com/specbench-io/specbench-skills",
+  "license": "MIT",
+  "keywords": [
+    "specbench",
+    "domain-modelling",
+    "specification",
+    "ddd",
+    "mcp"
+  ]
+}

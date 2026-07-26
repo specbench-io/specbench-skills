@@ -1,0 +1,24 @@
+{
+  "name": "specbench",
+  "owner": {
+    "name": "Specbench Limited",
+    "url": "https://specbench.io"
+  },
+  "plugins": [
+    {
+      "name": "specbench",
+      "source": {
+        "source": "path",
+        "path": "."
+      },
+      "description": "Domain modelling skills for Specbench: director (routing), engineer (tactical modelling), product (features and scenarios), and brownfield (existing-codebase ingest). Requires the Specbench MCP server.",
+      "strict": false,
+      "skills": [
+        "./skills/specbench-director",
+        "./skills/specbench-engineer",
+        "./skills/specbench-product",
+        "./skills/specbench-brownfield"
+      ]
+    }
+  ]
+}
