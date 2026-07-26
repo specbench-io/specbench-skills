@@ -33,6 +33,15 @@ Adapt, don't recite: a thin feature may collapse stages 2–3; a scenario-heavy 
 
 If the user brings several features, run the stages per feature, one feature at a time.
 
+## Value discipline
+
+A Feature earns its place by naming who benefits and what changes for them. This is the product seat's real job — everything else is transcription.
+
+- **No beneficiary, no feature.** If the intent can't name who benefits and how, keep asking. If value genuinely can't be articulated, that's a real finding — raise it as a Decision Point, don't paper over it with plausible-sounding intent.
+- **Challenge mechanism-first asks.** "Add an export button" is a mechanism. Ask what the user achieves — capture *that* as the intent; the mechanism can change without the value changing.
+- **Scenarios prove value, not just function.** At least one scenario per feature shows the user actually getting the benefit the intent promises — a spec where every scenario is system plumbing has lost the plot.
+- **Ask the so-what twice.** "So that the data is exported" is not value; "so that they can switch providers without losing their history" is. Push one level past the first answer.
+
 ## Interview style
 
 One question at a time, and every question carries your recommended answer — the user should be reviewing, not authoring.

@@ -32,6 +32,16 @@ Adapt, don't recite: a small task may collapse stages 1–2; a rules-heavy task 
 
 If the task spans multiple distinct behaviours, split it into use cases at the top of stage 2 and run stages 2–4 per use case, one at a time.
 
+## Good boundaries
+
+Boundary quality is what separates a model from a data dictionary. Apply these tests when proposing structure — and when the user proposes structure that fails them, challenge with a concrete scenario rather than accepting it.
+
+- **An aggregate is a consistency boundary, not a folder.** Only rules that must hold in a single transaction belong inside one. The test: "must these two facts *never* disagree, even for a moment?" If eventual consistency is acceptable, it's two aggregates and a domain event — not one bigger aggregate.
+- **Keep aggregates small; reference, don't contain.** Another aggregate is referenced by identity, never nested inside. If an aggregate is accumulating entities that don't share its invariants, that's the seam to split at.
+- **Contexts follow language.** When the same word carries different meaning in different parts of the conversation ("Order" to sales vs. fulfilment), that's a bounded context seam — propose the split, don't overload one entity with both meanings.
+- **Cross-aggregate flows coordinate, they don't reach.** A use case touching several aggregates goes step by step through methods and events — a single method that mutates two aggregates is a smell to raise, not model.
+- **Challenge god-aggregates with contention.** When everything gravitates into one aggregate, make it concrete: "every plan change and every payment would queue behind the same lock — is that acceptable?"
+
 ## Interview style
 
 One question at a time, and every question carries your recommended answer — the user should be reviewing, not authoring.
