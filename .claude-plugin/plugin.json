@@ -8,7 +8,7 @@
   },
   "homepage": "https://specbench.io",
   "repository": "https://github.com/specbench-io/specbench-skills",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "keywords": [
     "specbench",
     "domain-modelling",

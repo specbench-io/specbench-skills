@@ -52,4 +52,4 @@ These skills drive the Specbench MCP server and (for brownfield) read your codeb
 
 ## License
 
-MIT — see [LICENSE](./LICENSE).
+Apache-2.0 — see [LICENSE](./LICENSE).
