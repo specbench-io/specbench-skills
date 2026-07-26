@@ -9,7 +9,7 @@ Triage and routing. This skill decides which Specbench workflow fits the current
 
 ## Prerequisites
 
-- Specbench MCP server connected (tools prefixed `Specbench:` / `mcp__specbench__`). If absent, tell the user how to connect it (specbench.io/docs) and stop.
+- Specbench MCP server connected. Detect it by its tool names — `project_list`, `catalog_get`, `usecase_create`, etc. — not by prefix; the prefix depends on what the user named the connection. If absent, tell the user how to connect it (specbench.io/docs) and stop.
 
 ## Routing logic
 
