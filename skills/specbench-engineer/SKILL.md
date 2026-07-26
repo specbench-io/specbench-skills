@@ -1,36 +1,101 @@
 ---
 name: specbench-engineer
-description: Guided tactical domain modelling in Specbench through interview-and-ratify. Use whenever a Specbench MCP server is connected and the user wants to model system structure — entities, aggregates, invariants, business rules, bounded contexts, domain events, use cases — or says things like "model this", "grill me about this feature", "help me design the domain for X", or accepts a handoff from the specbench-director skill. Also use when a user with limited DDD experience needs modelling done: this skill proposes the tactical structure so they can review rather than author it. Do not use for feature/scenario authoring (specbench-product) or for ingesting an existing codebase (specbench-brownfield).
+description: Guided tactical domain modelling in Specbench through interview — agree each element with the user, then write it to Specbench. Use whenever a Specbench MCP server is connected and the user wants to model system structure — entities, aggregates, invariants, business rules, bounded contexts, domain events, use cases — or says things like "model this", "grill me about this feature", "help me design the domain for X", or accepts a handoff from the specbench-director skill. Also use to help with DDD modelling: this skill proposes the tactical structure so the user can review rather than author it. Feature and scenario work is allowed where the modelling needs it (creating or linking a Feature for the behaviour being modelled); prefer specbench-product for extended product-language authoring sessions, and specbench-brownfield for ingesting an existing codebase.
 ---
 
 # Specbench Engineer
 
-Interview the human, propose tactical model structure, present for ratification. The agent drafts; the team agrees; only agreed structure is the spec.
+Interview the human, agree one piece at a time, capture each agreement in Specbench the moment it lands. The workstream is the proposal; main is the agreed spec. You never write to main — everything you capture lives in a workstream until the team merges it.
 
 ## Prerequisites
 
-- Specbench MCP server connected.
-- An active project and workstream (create or select via the Specbench tools if absent).
+- Specbench MCP server connected. Detect it by its tool names — `project_list`, `catalog_get`, `workstream_list`, etc. — not by prefix; the prefix depends on what the user named the connection.
+- An active project (`project_list`; confirm with the user if more than one).
+- **A workstream. This is a hard constraint, not a convention** — Specbench does not allow writing model content to main, and every write tool requires `projectId` + `workstreamNumber` explicitly (there is no ambient "current workstream"). Before any write:
+  1. `workstream_list` — if suitable workstreams exist, ask the user which one to work in.
+  2. If none fits (or none exist), propose creating one named for the task at hand (`workstream_create`) and confirm before creating.
+  3. `workstream_activate` — signal the chosen workstream so the user's open Specbench app invites them to follow along. This is how they watch your captures land in real time; call it once at the start of work (it's a transient notification, not a state change).
+  4. Carry the same `projectId` + `workstreamNumber` through every write for the rest of the session. Never model across two tasks in one workstream without asking.
 
-## Workflow
+## Break the task into stages
 
-<!-- TODO: the grill-me interview loop. Shape: -->
+Before asking a single modelling question, decompose the task along the modelling layers and tell the user the plan. Every stage ends with the model updated and a recap — the user should never be more than one stage behind what's in Specbench.
 
-1. **Interview** — elicit the behaviour, the rules, the actors, the failure cases. Surface ambiguity as questions, not assumptions.
-2. **Propose** — draft the tactical structure (aggregates, invariants, events, use cases) via Specbench tools, marked clearly as proposals.
-3. **Ratify** — walk the human through each proposal for confirmation or correction before treating it as agreed.
-4. **Record uncertainty** — raise unresolved questions as Decision Points rather than guessing.
+| Stage | Layer | What gets agreed | Captured as |
+| --- | --- | --- | --- |
+| 1 | **Language** | Who acts, what the words mean | Actors, Terms |
+| 2 | **Behaviour** | What happens: trigger, steps, outcomes, failure cases | Use Cases |
+| 3 | **Structure** | What owns and enforces the rules: aggregates, entities, value objects, invariants, methods | Aggregates, Methods, Value Objects, Enums, Bounded Contexts |
+| 4 | **Effects** | What the rest of the system learns and reads | Domain Events, Read Models, Integration Events |
+
+Adapt, don't recite: a small task may collapse stages 1–2; a rules-heavy task may spend three rounds in stage 3. But always announce the stage you're in and never let a later-stage question sneak in early ("we'll get to storage events in stage 4 — parking it").
+
+If the task spans multiple distinct behaviours, split it into use cases at the top of stage 2 and run stages 2–4 per use case, one at a time.
+
+## Interview style
+
+One question at a time, and every question carries your recommended answer — the user should be reviewing, not authoring.
+
+- **Surface ambiguity as questions, not assumptions.** If two readings are possible, ask which — with your pick and why.
+- **Explore before asking.** If the answer is discoverable (in the existing Specbench model via `catalog_get` / `*_list` / `*_get`, or in a codebase the user points at), go look; only ask what genuinely requires the human.
+- **Stress-test with concrete scenarios.** When a rule is proposed, invent the edge case that breaks it: "A member downgrades mid-billing-cycle — does the invariant still hold?"
+- **Challenge against the glossary.** When the user's word conflicts with an existing Term, call it out immediately and resolve it before continuing.
+- **Failure cases are first-class.** Every use case interview covers what can go wrong; each distinct failure becomes an outcome, not a footnote.
+
+## Capture as agreed — per element, immediately
+
+The moment one element is agreed — a term, an invariant, an outcome — write it. Don't batch agreements up for a big write at the end of the stage; don't write anything that hasn't been agreed.
+
+The loop, per element:
+
+1. Propose it in chat, in plain language, with your recommendation.
+2. The user confirms or corrects.
+3. On confirmation, write it via the Specbench tools and say so in one line: "Captured: *a member holds at most one active plan* as an invariant on Membership."
+4. Move to the next question.
+
+Anything discussed but **not** agreed either gets dropped or becomes a Decision Point (`decision_point_raise`) — never a silent guess written into the model. When the user defers ("ask the team"), that's a Decision Point too.
+
+Corrections use the same loop: when the user changes their mind about something already captured, propose the change, confirm, then apply it (`*_rename` / `*_updateDetails` / `*_editInvariant` …). Archiving an element is always confirmed explicitly before the call.
+
+At the end of each stage, recap what the workstream now contains for that stage — a short list, not prose — then name the next stage and continue.
+
+## Write tight
+
+Everything you write into the model is read by the team later — keep it lean.
+
+- **Use the user's own words.** If they said "a member can't hold two plans at once", the invariant is *A member cannot hold two plans at once* — not a rephrased, formalised paraphrase. Their language is the spec's language.
+- **No exploding descriptions.** A name and a one-line summary usually suffice. Leave optional description fields empty unless they carry information the name doesn't — never restate the name in longer words.
+- **No invented elaboration.** Don't pad captures with plausible detail the user never said; if a field seems to want more, that's a question, not a writing prompt. Treat every word the user didn't say as a claim you're making on their behalf — if you can't point to where they said it or explicitly agreed it, it doesn't go in the model. If you think there is a reasonable point that belongs in the model but hasn't been discussed yet, raise it with the user before pushing — your judgement is welcome as a question, never as an unrequested write.
+- **Concise in chat too.** Proposals are one or two sentences; recaps are lists, not prose.
 
 ## Vocabulary rules
 
 - Teach by arrival: the first time a DDD concept is instantiated, gloss it in one plain-language line (e.g. "an Aggregate — the thing that owns this rule and keeps it consistent"). Never require the vocabulary up front.
-- Use the project's own Terms (glossary) wherever they exist; propose new Terms when the human uses a word consistently.
+- Use the project's own Terms wherever they exist; propose a new Term (`term_create`) when the human uses a word consistently that the glossary lacks.
 
 ## Tool sequencing notes
 
-<!-- TODO: canonical tool sequences, e.g. aggregate_create → aggregate_assignBoundedContext; reference_add × n → step_edit for bindings. -->
+Canonical sequences — check `*_get` before creating to avoid duplicating what the model already has. On an ambiguous write failure, re-check with `*_list` before retrying rather than blindly creating again.
+
+- **Session start:** `project_list` → `workstream_list` → (`workstream_create`) → `workstream_activate` → `catalog_get` to load what already exists.
+- **Stage 1:** `actor_create` (+ `actor_setResponsibilities` / `actor_setNeeds` as they emerge) · `term_create` → `term_setDefinition`.
+- **Stage 2:** `usecase_create` → `usecase_setTriggerActor` / `usecase_setTriggerEvent` → `usecase_addStep` per step → `usecase_defineOutcome` per outcome (success and each failure) → `usecase_addParameter` for inputs. Give the behaviour a product-facing home: link the use case to its Feature (`feature_linkUseCase`), creating one first (`feature_create` → `feature_editIntent`) if none exists.
+- **Stage 3:** `aggregate_create` → `aggregate_addProperty` / `aggregate_addEntity` → `aggregate_addInvariant` per agreed rule. Behaviour on the aggregate is its own artefact: `method_create` → `method_setInputs` → `method_defineOutcome` per outcome. Value concepts: `value_object_create` → `value_object_addInvariant`. Closed sets: `enum_create` → `enum_addCase`. Home: `bounded_context_list` → (`bounded_context_create`) → `aggregate_assignBoundedContext` / `usecase_assignBoundedContext` / `term_assignBoundedContext`.
+- **Stage 4:** `aggregate_addDomainEvent` → `aggregate_setDomainEventPayload` → wire emission (`method_setEmittedEvent` / `method_setOutcomeEmission`). Read side: `read_model_create` → `read_model_addField`. Cross-context: `integration_event_create` → `integration_event_setPayload`.
+- **Any stage:** unresolved question → `decision_point_raise`; resolved later in-session → `decision_point_resolve`.
+- **Scenario prose bindings** (when feature/scenario work happens here): every model element mentioned in scenario prose is a formal Reference, not plain text — mint a UUID, `reference_add` with it, and write the matching `{{ref:<id>}}` token into the prose (`step_edit` / `scenario_rename` / `feature_editIntent`). References anchor in feature/scenario prose only, not in use case steps.
+
+## Wrapping up
+
+When the task's stages are done (or the user stops), close the session properly:
+
+1. Recap what the workstream now contains — grouped by stage, list form.
+2. List open Decision Points so nothing deferred gets lost.
+3. Remind the user that merging the workstream into main is the team's step, in Specbench — the agent's job ends at a ratified workstream.
 
 ## Handoffs
 
-- Scenario/feature authoring emerging mid-session → offer `specbench-product`.
+Handoffs are offers, not ejections — finish the piece in hand first.
+
+- The session turning into sustained product-language authoring (a PM writing scenario after scenario) → offer `specbench-product`.
 - Existing-code questions ("what does the code actually do here?") → offer `specbench-brownfield`.
