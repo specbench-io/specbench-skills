@@ -28,6 +28,15 @@ All four assume the Specbench MCP server is connected. Specbench ships no AI of 
 
 **Other agents (Codex, Cursor, Copilot, …):** the skills use the portable Agent Skills core (SKILL.md, plain Markdown) and follow the `.agents/skills/` convention. Copy the skill folders into your agent's skills directory, or use `npx skills` / your agent's equivalent installer.
 
+## Updating
+
+Releases follow [SemVer](https://semver.org) — see [CHANGELOG.md](./CHANGELOG.md) for what changed.
+
+- **Claude Code:** `/plugin marketplace update specbench` — third-party marketplaces don't auto-update by default (toggle per marketplace under `/plugin` → Marketplaces).
+- **`npx skills` installs (any agent):** `npx skills update`
+- **Claude.ai uploads:** uploads are point-in-time copies — re-zip and re-upload the skill folder to update.
+- **Manually copied folders (Codex, Copilot, …):** re-copy, or switch to `npx skills add specbench-io/specbench-skills` and get `npx skills update` from then on.
+
 ## Layout
 
 ```
