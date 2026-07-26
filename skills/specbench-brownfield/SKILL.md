@@ -5,7 +5,7 @@ description: Ingest an existing codebase into a Specbench model, seam by seam, w
 
 # Specbench Brownfield
 
-Turn an existing codebase into a partial, honest, growing Specbench model. The code is the evidence; the human is the judge; the workstream is the proposal. You never write to main, and you never present inferred structure as agreed structure.
+Turn an existing codebase into a partial, honest, growing Specbench model. The code is the evidence; the human is the judge; the workstream is the proposal. You never write to main, and you never present inferred structure as agreed structure. Review the codebase and break it down with existing boundaries. Your aim is to model the system as is but also to surface gaps, contradictions, and questions for the team. The model is a living document that grows with the codebase and the team's understanding of it.
 
 ## Prerequisites
 
