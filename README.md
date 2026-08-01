@@ -1,5 +1,7 @@
 # Specbench Skills
 
+> **Looking for Specbench itself?** This repo contains only the Agent Skills — head to [specbench.io](https://specbench.io) for the product. The core product repository will be made public soon.
+
 Open-source Agent Skills that turn any MCP-compatible coding agent into a [Specbench](https://specbench.io) modelling partner. Same tools as the humans on your team — the Specbench MCP server has full feature parity with the UI. These skills add the guided workflows on top.
 
 > **Status:** v0.1 — all four skill bodies are complete and verified against the Specbench MCP surface. Every workflow follows the same contract: one question at a time, each element agreed in conversation before it is written, everything written landing in a workstream — never main. Expect refinements as the skills see real sessions; the skill names, descriptions, and handoffs are stable.
