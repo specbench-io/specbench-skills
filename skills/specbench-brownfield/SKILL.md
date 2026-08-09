@@ -31,6 +31,8 @@ Every proposal carries how sure you are and why: "High — this invariant is enf
 - High confidence + user confirms → capture.
 - Low confidence → that's a question first; if the user doesn't know either, `decision_point_raise` and move on. An uncertainty the team can see beats a guess they can't.
 - Code that contradicts what the user believes is a finding, not an awkwardness — surface it: "You said cancellations are partial, but `order.cancel()` voids the whole order (`order.ts:88`) — which is the spec?"
+- Strong evidence establishes what IS, never what SHOULD BE. Even behaviour the code marks as deliberate — an explaining comment, a regression test guarding it — can be overruled by the human as a missed restriction. Present it as a finding either way; when they reverse it, the spec wins, the code gets fixed to match, and the reversal is recorded where the team will see it (Task description, commit) so it reads as a decision, not drift.
+- Events published on a module's public contract may have no subscribers — grep for consumers before modelling them. "Published but nothing listens" is itself a finding to surface, not a reason to silently omit the event.
 
 ## Marking what's already built
 

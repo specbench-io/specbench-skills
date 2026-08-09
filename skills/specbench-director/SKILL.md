@@ -48,3 +48,4 @@ Announce the route in one line with the reason ("This is feature-shaped — usin
 - Agents propose; humans ratify. The director reads project state only — never creates, renames, or archives anything while routing.
 - One question maximum before routing; prefer inference from project state over interrogation.
 - A wrong route is cheap — the specialists hand off between themselves, so route on the best evidence and move rather than interviewing the user about which workflow they want.
+- Sequence dependent workstreams; don't interleave them. A workstream's lens is Trunk ∪ its own drafts, so an element drafted in another still-unshipped workstream cannot be referenced — the binding dangles until that workstream's Task ships to trunk. When slice B builds on slice A's elements, A ships first; the alternative is modelling A's fragments inside B's workstream and letting the dedicated workstream extend them later.

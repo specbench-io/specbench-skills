@@ -103,7 +103,7 @@ Canonical sequences — check `*_get` / `*_list` before creating to avoid duplic
 - **Stage 1:** `feature_create` → `feature_editIntent` (the WHY, ≤500 chars — user-story style: *As a…, I want…, so that…*).
 - **Stage 2:** `actor_create` (+ `actor_setResponsibilities` / `actor_setNeeds`) · `term_create` → `term_setDefinition`.
 - **Stage 3:** `feature_editDescription` (the WHAT — behaviour and caveats, not intent, not scenarios).
-- **Stage 4:** `scenario_add` (mint scenarioId; anchor on the Outcome it exercises via the `outcome` parameter where one exists) → `step_append` per step (mint stepId; `keyword` is Given/When/Then/And/But — And/But must follow a non-And/But step) → bindings per *Bind, don't name-drop*.
+- **Stage 4:** `scenario_add` (mint scenarioId; anchor on the Outcome it exercises via the `outcome` parameter where one exists — including another use case's outcome when that is what the scenario proves, e.g. a "name is reusable after delete" scenario in the Delete feature anchoring Create's success) → `step_append` per step (mint stepId; `keyword` is Given/When/Then/And/But — And/But must follow a non-And/But step) → bindings per *Bind, don't name-drop*.
 - **Stage 5:** `feature_linkUseCase` / `feature_linkApplication`.
 - **Any stage:** unresolved question → `decision_point_raise`; resolved in-session → `decision_point_resolve`.
 
