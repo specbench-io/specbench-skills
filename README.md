@@ -4,18 +4,22 @@
 
 Open-source Agent Skills that turn any MCP-compatible coding agent into a [Specbench](https://specbench.io) modelling partner. Same tools as the humans on your team — the Specbench MCP server has full feature parity with the UI. These skills add the guided workflows on top.
 
-> **Status:** v0.1 — all four skill bodies are complete and verified against the Specbench MCP surface. Every workflow follows the same contract: one question at a time, each element agreed in conversation before it is written, everything written landing in a workstream — never main. Expect refinements as the skills see real sessions; the skill names, descriptions, and handoffs are stable.
+> **Status:** v0.2 — built for the Specbench Community Edition and its document-based MCP surface. Every workflow follows the same contract: one question at a time, each element agreed in conversation before it is staged, everything staged landing in a workstream's Proposal for a person to accept — never the trunk. Skill names, descriptions, and handoffs are stable.
 
 ## The skills
 
 | Skill | Job |
 | --- | --- |
 | `specbench-director` | Triage. Reads the project state and routes to the right workflow. |
-| `specbench-engineer` | Tactical domain modelling by interview: agent proposes, your team ratifies. |
+| `specbench-engineer` | Strategic domain modelling by interview — contexts, language, actors: agent proposes, your team ratifies. |
 | `specbench-product` | Features, scenarios, roles, and terms in plain language — the product seat. |
 | `specbench-brownfield` | Seam-by-seam ingest of an existing codebase into an honest, partial model. |
 
 All four assume the Specbench MCP server is connected. Specbench ships no AI of its own — these skills run on the agents you already use.
+
+## How the skills drive Specbench
+
+The MCP surface is deliberately small. Agents author whole YAML Spec Documents — `spec_get`, edit, `spec_apply` — and the server diffs them into the workstream. Agent writes stage into the workstream's Proposal, where your team comments on and accepts each artefact in the Action Center. Accepted changes travel to the trunk through Tasks, which people scope and agree. The model holds four artefact kinds: Bounded Contexts, Roles, Glossary Terms, and Features with Scenarios. The four skills share one section, *Working in Specbench*, that encodes this loop; it is repeated in each skill so every skill stays installable on its own.
 
 ## Install
 
@@ -52,11 +56,12 @@ skills/
 
 ## Design principles
 
-- **Agents propose; humans ratify.** Every element is agreed in conversation before it is written, and everything written lands in a workstream — never main. The workstream is the proposal; merging it is the team's call.
-- **Behaviour-driven.** Scenarios are Gherkin, concrete examples come before general rules, and every outcome earns a scenario that proves it — the seats check each other's coverage.
+- **Agents propose; humans ratify.** Every element is agreed in conversation before it is staged, and everything staged lands in a Proposal for a person to accept — never the trunk. Accepting, resolving review threads, and agreeing Tasks stay human acts; the server refuses an agent that tries.
+- **Behaviour-driven.** Scenarios are Gherkin, concrete examples come before general rules, and every rule earns a scenario that proves it — the seats check each other's coverage.
 - **The user's words are the spec.** No formalised paraphrase, no invented elaboration — anything the user didn't say is raised as a question, never written on their behalf.
 - **Teach by arrival.** No DDD vocabulary is required up front; concepts are glossed in plain language the first time they're instantiated.
 - **Honest ingest.** Brownfield mapping is incremental, evidence-cited, and confidence-marked — a small confirmed model beats a large speculative one.
+- **Only what the model can hold.** Structure outside the four artefact kinds — use cases, aggregates, events — is captured as prose in the owning Bounded Context, never as invented artefact kinds.
 - **Inspectable.** Everything these skills will make your agent do is in this repo, readable before you install it.
 
 ## Security

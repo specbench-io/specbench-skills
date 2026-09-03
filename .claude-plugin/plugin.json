@@ -1,6 +1,6 @@
 {
   "name": "specbench",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Domain modelling skills for Specbench: guided workflows that turn any MCP-compatible agent into a Specbench modelling partner. Requires the Specbench MCP server.",
   "author": {
     "name": "Specbench Limited",
