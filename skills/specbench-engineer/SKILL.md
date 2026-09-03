@@ -43,7 +43,7 @@ Specbench has no per-element write tools. You author whole YAML Spec Documents, 
 - After the first coherent pass, `proposal_ready` (with `expectedRevision` from `proposal_get`) so editors are notified. Staging continues afterwards — ready is a signal, not a freeze.
 - `proposal_get` shows every comment. Answer with `thread_reply`, or restage the artefact — a newer revision marks earlier comments Outdated.
 - Accepting revisions, resolving threads, and finishing the Proposal are a person's acts. Stage, answer, and wait; the server refuses an agent that tries to accept its own work.
-- To raise a point without changing the spec, `thread_open` on the artefact (kinds `bounded-context` and `actor` today); for a Term or Feature, put the question in your recap for the team.
+- To raise a point without changing the spec, `thread_open` on the artefact — any kind the registry knows (`bounded-context`, `actor`, `term`, `feature`). Pass `artefactId` from the document's `id` and `anchor` to name the section under discussion.
 
 ## The documents
 
@@ -145,7 +145,7 @@ The moment one element is agreed — a term, a context, a rule — stage it. Don
 3. On confirmation, apply the artefact's document and say so in one line.
 4. Move to the next question.
 
-Anything discussed but **not** agreed either gets dropped or becomes an open question in the recap (or a `thread_open` on the artefact it concerns) — never a silent guess written into the model. When the user defers ("ask the team"), that's a thread.
+Anything discussed but **not** agreed either gets dropped or becomes a thread (`thread_open` on the artefact it concerns) — never a silent guess written into the model. When the user defers ("ask the team"), that's a thread; a question with no artefact to anchor to yet goes in the recap.
 
 Corrections use the same loop: edit the document and re-apply; the newer revision supersedes the staged one. Archiving is always confirmed explicitly before the apply.
 

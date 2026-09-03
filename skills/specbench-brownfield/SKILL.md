@@ -42,7 +42,7 @@ Specbench has no per-element write tools. You author whole YAML Spec Documents, 
 
 - After each slice, `proposal_ready` (with `expectedRevision` from `proposal_get`) if not already — it signals once and staging continues.
 - `proposal_get` shows every comment; answer with `thread_reply` or restage. Accepting, resolving, and finishing are a person's acts.
-- Raise a finding without changing the spec with `thread_open` on the artefact (kinds `bounded-context` and `actor` today); for a Term or Feature, put it in the recap.
+- Raise a finding without changing the spec with `thread_open` on the artefact — any kind the registry knows (`bounded-context`, `actor`, `term`, `feature`). Pass `artefactId` from the document's `id` and `anchor` to name the section under discussion.
 
 ## What the code maps onto
 

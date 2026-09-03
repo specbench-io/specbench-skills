@@ -43,7 +43,7 @@ Specbench has no per-element write tools. You author whole YAML Spec Documents, 
 - After the first coherent pass, `proposal_ready` (with `expectedRevision` from `proposal_get`) so editors are notified. Staging continues afterwards — ready is a signal, not a freeze.
 - `proposal_get` shows every comment. Answer with `thread_reply`, or restage the artefact — a newer revision marks earlier comments Outdated.
 - Accepting revisions, resolving threads, and finishing the Proposal are a person's acts. Stage, answer, and wait; the server refuses an agent that tries to accept its own work.
-- To raise a point without changing the spec, `thread_open` on the artefact (kinds `bounded-context` and `actor` today); for a Feature or Term, put the question in your recap for the team.
+- To raise a point without changing the spec, `thread_open` on the artefact — any kind the registry knows (`bounded-context`, `actor`, `term`, `feature`). Pass `artefactId` from the document's `id` and `anchor` to name the scenario or section under discussion.
 
 ## The Feature document
 
@@ -96,7 +96,7 @@ If the user brings several features, run the stages per feature, one feature at 
 
 A Feature earns its place by naming who benefits and what changes for them. This is the product seat's real job — everything else is transcription.
 
-- **No beneficiary, no feature.** If the intent can't name who benefits and how, keep asking. If value genuinely can't be articulated, that's a real finding — surface it to the team in the recap, don't paper over it with plausible-sounding intent.
+- **No beneficiary, no feature.** If the intent can't name who benefits and how, keep asking. If value genuinely can't be articulated, that's a real finding — open a thread on the Feature for the team, don't paper over it with plausible-sounding intent.
 - **Challenge mechanism-first asks.** "Add an export button" is a mechanism. Ask what the user achieves — capture *that* as the intent; the mechanism can change without the value changing.
 - **Scenarios prove value, not just function.** At least one scenario per feature shows the user actually getting the benefit the intent promises — a spec where every scenario is system plumbing has lost the plot.
 - **Ask the so-what twice.** "So that the data is exported" is not value; "so that they can switch providers without losing their history" is. Push one level past the first answer.
@@ -121,7 +121,7 @@ The moment one element is agreed — an intent line, a term, a scenario — stag
 3. On confirmation, apply the artefact's document and say so in one line.
 4. Move to the next question.
 
-Corrections use the same loop — edit the document and re-apply; the newer revision supersedes the staged one. Removal (`archived: true`) is always confirmed explicitly before the apply. Anything discussed but not agreed is dropped or listed as an open question in the recap — never a silent guess. At the end of each stage, recap the stage's captures as a short list, then name the next stage.
+Corrections use the same loop — edit the document and re-apply; the newer revision supersedes the staged one. Removal (`archived: true`) is always confirmed explicitly before the apply. Anything discussed but not agreed is dropped or raised as a thread on the artefact it concerns (`thread_open`) — never a silent guess; a question with no artefact to anchor to yet goes in the recap. At the end of each stage, recap the stage's captures as a short list, then name the next stage.
 
 ## Write tight
 
@@ -144,7 +144,7 @@ Steps are Gherkin (`Given` / `When` / `Then`, continued by `And` / `But`): Given
 
 ## Boundary discipline
 
-- When a scenario implies structure the model does not hold yet (a new Bounded Context, a word that means two things in two places), **flag it for the engineering side** — do not silently model it. Offer the `specbench-engineer` skill or list it for the team in the recap.
+- When a scenario implies structure the model does not hold yet (a new Bounded Context, a word that means two things in two places), **flag it for the engineering side** — do not silently model it. Offer the `specbench-engineer` skill or open a thread on the Feature so the team sees the gap.
 - Light structural touches in service of the feature (a Term, a Role) belong here; sustained boundary work does not.
 - Use Cases, Aggregates, and Events are on the Specbench roadmap and have no artefact kind yet. When the conversation reaches for them, capture the behaviour in scenarios and leave the structure for engineering.
 

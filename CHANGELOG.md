@@ -15,7 +15,7 @@ Reworked for the open-source Specbench Community Edition, whose MCP surface repl
 - `specbench-director` detects the server by `spec_get` / `spec_apply` and reads the trunk with `spec_get` instead of `catalog_get`.
 
 ### Removed
-- Decision Points, @-mention reference bindings, `workstream_activate`, and every `*_create` / `*_add` / `*_set` tool sequence — none exist on the new surface. Open questions become comment threads (`thread_open`) or recap items.
+- Decision Points, @-mention reference bindings, `workstream_activate`, and every `*_create` / `*_add` / `*_set` tool sequence — none exist on the new surface. Open questions become comment threads (`thread_open`) on the artefact they concern — any registry kind, which needs Specbench PR #88 or later for Terms and Features.
 
 ## [0.1.0] — 2026-07-26
 
