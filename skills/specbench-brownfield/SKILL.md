@@ -15,7 +15,7 @@ Turn an existing codebase into a partial, honest, growing Specbench model. The c
 
 ## Working in Specbench — the loop every write goes through
 
-Specbench has no per-element write tools. You author whole YAML Spec Documents, one per artefact, and the server diffs them into the workstream. Agent writes never land directly: they stage into the workstream's Proposal, where a person reviews, comments, and accepts each artefact.
+Specbench is authored as whole YAML Spec Documents, one per artefact: read the document, edit it, apply it back, and the server diffs it into the workstream. Agent writes stage into the workstream's Proposal, where a person reviews, comments, and accepts each artefact.
 
 **Session start**
 
@@ -46,7 +46,7 @@ Specbench has no per-element write tools. You author whole YAML Spec Documents, 
 
 ## What the code maps onto
 
-The Community Edition models Bounded Contexts, Terms, Actors, and Features. Map the code onto those and nothing else:
+The model holds Bounded Contexts, Terms, Actors, and Features. Map the code onto those and nothing else:
 
 | In the code | Becomes |
 | --- | --- |
@@ -55,7 +55,7 @@ The Community Edition models Bounded Contexts, Terms, Actors, and Features. Map 
 | A permission, role enum, or persona the code branches on | Actor — `responsibilities` from what it can do, `pain-points` only if the user says so |
 | An observable behaviour at an entry point (endpoint, handler, page) | Feature with scenarios — the Given/When/Then the code actually implements, including its failure paths |
 
-Aggregates, use cases, and events have no artefact kind yet — record them as lines in the owning context's `description`, so they lift into first-class artefacts when the kinds arrive.
+Aggregates, use cases, and events have no artefact kind — record them as lines in the owning context's `description`.
 
 ## The slice loop
 

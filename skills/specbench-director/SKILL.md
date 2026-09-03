@@ -34,9 +34,9 @@ Route on evidence, not on the first sentence. Before deciding, gather (read-only
 
 The boundaries are soft by design: the specialists do light work across their line and hand off when the work becomes sustained. Route on the *centre of gravity* of the user's ask, not on whichever keyword appeared first. At most **one** clarifying question before routing; prefer inference from the state you gathered.
 
-## What the model can hold today
+## The artefact kinds
 
-The Community Edition models Bounded Contexts, Roles (Actors), Glossary Terms, and Features with Scenarios. Use Cases, Aggregates, Events, and Handlers are on the roadmap — when the user asks for those, route to `specbench-engineer`, which captures that structure as prose inside the owning Bounded Context rather than inventing artefact kinds the server refuses.
+The model holds Bounded Contexts, Roles (Actors), Glossary Terms, and Features with Scenarios. When the user asks for structure outside those — use cases, aggregates, events, handlers — route to `specbench-engineer`, which captures it as prose inside the owning Bounded Context rather than inventing artefact kinds the server refuses.
 
 ## Handoff contract
 

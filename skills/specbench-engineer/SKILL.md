@@ -15,7 +15,7 @@ Interview the human, agree one piece at a time, stage each agreement in Specbenc
 
 ## Working in Specbench — the loop every write goes through
 
-Specbench has no per-element write tools. You author whole YAML Spec Documents, one per artefact, and the server diffs them into the workstream. Agent writes never land directly: they stage into the workstream's Proposal, where a person reviews, comments, and accepts each artefact.
+Specbench is authored as whole YAML Spec Documents, one per artefact: read the document, edit it, apply it back, and the server diffs it into the workstream. Agent writes stage into the workstream's Proposal, where a person reviews, comments, and accepts each artefact.
 
 **Session start**
 
@@ -87,12 +87,12 @@ pain-points: [Two systems disagree on the renewal date]
 
 Features (`kind: feature` — `title`, `intent`, `description`, `scenarios` with Gherkin `steps`) belong to the product seat; the shape is in `specbench-product`.
 
-## What the model holds today — and what it doesn't
+## The artefact kinds
 
-The Community Edition models Bounded Contexts, Terms, Actors, and Features. **Use Cases, Aggregates, Invariants, Domain Events, and Handlers are on the roadmap and have no artefact kind yet.** When the interview reaches tactical structure:
+The model holds Bounded Contexts, Terms, Actors, and Features. **Use Cases, Aggregates, Invariants, Domain Events, and Handlers have no artefact kind.** When the interview reaches tactical structure:
 
-- Capture it as structured prose in the owning Bounded Context's `description` — short headed sections ("Rules that must hold", "Behaviour", "Events raised") with one line per agreed rule — so the agreement is on the record and lifts cleanly into first-class artefacts when they arrive.
-- Name the concept with its DDD word in chat so the user learns the vocabulary, but never write a document with a kind the registry lacks — the server refuses it.
+- Capture it as structured prose in the owning Bounded Context's `description` — short headed sections ("Rules that must hold", "Behaviour", "Events raised") with one line per agreed rule — so the agreement is on the record in a shape that lifts cleanly into a first-class artefact.
+- Name the concept with its DDD word in chat so the user learns the vocabulary, but only ever write a document whose kind the registry knows — the server refuses any other.
 - Behaviour that needs proving gets a Feature scenario (product seat), not an invented use-case document.
 
 ## Break the task into stages

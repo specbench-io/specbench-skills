@@ -5,17 +5,15 @@ Format: [Keep a Changelog](https://keepachangelog.com); versioning: [SemVer](htt
 
 ## [0.2.0] — 2026-09-03
 
-Reworked for the open-source Specbench Community Edition, whose MCP surface replaces per-element tools with whole-document authoring and routes agent writes through Proposals.
+Built for the Specbench Community Edition and its document-based MCP surface. Not compatible with earlier Specbench servers.
 
 ### Changed
-- All four skills now drive the document loop: `spec_get` → edit YAML → `spec_apply` into the workstream's open Proposal (`proposal_open`), then `proposal_ready`, `proposal_get`, and `thread_reply` for review. Accepting, resolving threads, and finishing stay human acts.
-- `specbench-engineer` is rescoped from tactical to strategic modelling — Bounded Contexts, Glossary Terms, and Actors — with tactical structure (use cases, aggregates, events) captured as prose in the owning context until the Community Edition models it.
+- All four skills drive the document loop: `spec_get` → edit YAML → `spec_apply` into the workstream's open Proposal (`proposal_open`), then `proposal_ready`, `proposal_get`, and `thread_reply` for review. Accepting, resolving threads, and finishing stay human acts.
+- `specbench-engineer` models strategic structure — Bounded Contexts, Glossary Terms, and Actors — and captures tactical structure (use cases, aggregates, events) as prose in the owning context.
 - `specbench-product` authors Features and Scenarios as one YAML document per Feature, with client-minted scenario and step ids.
-- `specbench-brownfield` maps code onto the four available kinds and drops the Task-driven "mark built" flow — the spec records agreed intent, never build status.
-- `specbench-director` detects the server by `spec_get` / `spec_apply` and reads the trunk with `spec_get` instead of `catalog_get`.
-
-### Removed
-- Decision Points, @-mention reference bindings, `workstream_activate`, and every `*_create` / `*_add` / `*_set` tool sequence — none exist on the new surface. Open questions become comment threads (`thread_open`) on the artefact they concern — any registry kind, which needs Specbench PR #88 or later for Terms and Features.
+- `specbench-brownfield` maps code onto the four artefact kinds; the spec records agreed intent, never build status.
+- `specbench-director` detects the server by `spec_get` / `spec_apply` and reads the trunk with `spec_get`.
+- Open questions become comment threads (`thread_open`) on the artefact they concern — any registry kind, which needs Specbench PR #88 or later for Terms and Features.
 
 ## [0.1.0] — 2026-07-26
 

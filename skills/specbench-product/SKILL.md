@@ -15,7 +15,7 @@ Feature and behaviour authoring from the product seat. Plain language in, agreed
 
 ## Working in Specbench — the loop every write goes through
 
-Specbench has no per-element write tools. You author whole YAML Spec Documents, one per artefact, and the server diffs them into the workstream. Agent writes never land directly: they stage into the workstream's Proposal, where a person reviews, comments, and accepts each artefact.
+Specbench is authored as whole YAML Spec Documents, one per artefact: read the document, edit it, apply it back, and the server diffs it into the workstream. Agent writes stage into the workstream's Proposal, where a person reviews, comments, and accepts each artefact.
 
 **Session start**
 
@@ -146,7 +146,7 @@ Steps are Gherkin (`Given` / `When` / `Then`, continued by `And` / `But`): Given
 
 - When a scenario implies structure the model does not hold yet (a new Bounded Context, a word that means two things in two places), **flag it for the engineering side** — do not silently model it. Offer the `specbench-engineer` skill or open a thread on the Feature so the team sees the gap.
 - Light structural touches in service of the feature (a Term, a Role) belong here; sustained boundary work does not.
-- Use Cases, Aggregates, and Events are on the Specbench roadmap and have no artefact kind yet. When the conversation reaches for them, capture the behaviour in scenarios and leave the structure for engineering.
+- Use Cases, Aggregates, and Events have no artefact kind. When the conversation reaches for them, capture the behaviour in scenarios and leave the structure for engineering.
 
 ## Wrapping up
 

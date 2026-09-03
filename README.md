@@ -4,7 +4,7 @@
 
 Open-source Agent Skills that turn any MCP-compatible coding agent into a [Specbench](https://specbench.io) modelling partner. Same tools as the humans on your team — the Specbench MCP server has full feature parity with the UI. These skills add the guided workflows on top.
 
-> **Status:** v0.2 — reworked for the open-source Specbench Community Edition and its document-based MCP surface. Every workflow follows the same contract: one question at a time, each element agreed in conversation before it is staged, everything staged landing in a workstream's Proposal for a person to accept — never the trunk. The Community Edition models Bounded Contexts, Roles, Glossary Terms, and Features today; the skills grow with the model. Skill names, descriptions, and handoffs are stable.
+> **Status:** v0.2 — built for the Specbench Community Edition and its document-based MCP surface. Every workflow follows the same contract: one question at a time, each element agreed in conversation before it is staged, everything staged landing in a workstream's Proposal for a person to accept — never the trunk. Skill names, descriptions, and handoffs are stable.
 
 ## The skills
 
@@ -19,7 +19,7 @@ All four assume the Specbench MCP server is connected. Specbench ships no AI of 
 
 ## How the skills drive Specbench
 
-The MCP surface is deliberately small. Agents author whole YAML Spec Documents — `spec_get`, edit, `spec_apply` — and the server diffs them into the workstream. Agent writes never land directly: they stage into the workstream's Proposal, where your team comments on and accepts each artefact in the Action Center. Accepted changes travel to the trunk through Tasks, which people scope and agree. The four skills share one section, *Working in Specbench*, that encodes this loop; it is repeated in each skill so every skill stays installable on its own.
+The MCP surface is deliberately small. Agents author whole YAML Spec Documents — `spec_get`, edit, `spec_apply` — and the server diffs them into the workstream. Agent writes stage into the workstream's Proposal, where your team comments on and accepts each artefact in the Action Center. Accepted changes travel to the trunk through Tasks, which people scope and agree. The model holds four artefact kinds: Bounded Contexts, Roles, Glossary Terms, and Features with Scenarios. The four skills share one section, *Working in Specbench*, that encodes this loop; it is repeated in each skill so every skill stays installable on its own.
 
 ## Install
 
@@ -61,7 +61,7 @@ skills/
 - **The user's words are the spec.** No formalised paraphrase, no invented elaboration — anything the user didn't say is raised as a question, never written on their behalf.
 - **Teach by arrival.** No DDD vocabulary is required up front; concepts are glossed in plain language the first time they're instantiated.
 - **Honest ingest.** Brownfield mapping is incremental, evidence-cited, and confidence-marked — a small confirmed model beats a large speculative one.
-- **Only what the model can hold.** Tactical structure the Community Edition does not model yet (use cases, aggregates, events) is captured as prose in the owning Bounded Context, never as invented artefact kinds.
+- **Only what the model can hold.** Structure outside the four artefact kinds — use cases, aggregates, events — is captured as prose in the owning Bounded Context, never as invented artefact kinds.
 - **Inspectable.** Everything these skills will make your agent do is in this repo, readable before you install it.
 
 ## Security
