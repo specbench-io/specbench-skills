@@ -4,20 +4,18 @@
 
 Open-source Agent Skills that turn any MCP-compatible coding agent into a [Specbench](https://specbench.io) modelling partner. Same tools as the humans on your team — the Specbench MCP server has full feature parity with the UI. These skills add the guided workflows on top.
 
-> **Status:** one skill, `specbench`, built for Specbench's current model: strategic and tactical artefact kinds, and a document-based MCP surface. Every workflow follows the same contract: one question at a time, each element agreed in conversation before it is staged, everything staged landing in a workstream's Proposal for a person to accept.
+> **Status:** built for Specbench's current model and MCP surface. Every session follows the same contract: one question at a time, each element agreed in conversation before it is staged, and everything staged landing in a workstream's Proposal for a person to accept.
 
 ## The skill
 
-`specbench` opens every session by choosing a **seat**:
+`specbench` covers both sides of a spec, and each session starts by settling which one you are working on:
 
-| Seat | Job |
-| --- | --- |
-| Product | Features, scenarios, roles, and terms in plain language: why, what, prove. |
-| Engineering | Domain modelling by interview. **Strategic**: subdomains, bounded contexts, the ubiquitous language, roles. **Tactical**: aggregates, value objects, enums, use cases, event handlers, scheduled jobs, read models, data contracts, integration events inside a context. |
+- **Product work:** what the software should do and why. Features and acceptance scenarios, in plain language.
+- **Engineering work:** how the system is structured. First where the boundaries and the shared language are, then the detail inside each boundary: aggregates, use cases, events, and the data that moves between them.
 
-Either seat can work from an existing codebase instead of conversation: slice by slice, evidence-cited and confidence-marked. Switching seats mid-session keeps the same workstream and Proposal.
+Either can start from an existing codebase instead of a conversation. Switching mid-session keeps the same workstream and Proposal.
 
-The skill assumes the Specbench MCP server is connected (`https://mcp.specbench.io/mcp`). Specbench ships no AI of its own; the skill runs on the agents you already use.
+The skill needs the Specbench MCP server connected (`https://mcp.specbench.io/mcp`). Specbench ships no AI of its own; the skill runs on the agents you already use.
 
 ## How the skill drives Specbench
 
