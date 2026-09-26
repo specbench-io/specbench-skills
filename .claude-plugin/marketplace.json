@@ -4,18 +4,13 @@
     "name": "Specbench Limited",
     "url": "https://specbench.io"
   },
+  "description": "Specbench skills for guided spec work with any MCP-compatible agent.",
   "plugins": [
     {
       "name": "specbench",
-      "source": {
-        "source": "path",
-        "path": "."
-      },
+      "source": "./",
       "description": "Guided spec work for Specbench: one skill with a product seat (features and scenarios) and an engineering seat (strategic and tactical domain modelling), from conversation or an existing codebase. Requires the Specbench MCP server.",
-      "strict": false,
-      "skills": [
-        "./skills/specbench"
-      ]
+      "strict": false
     }
   ]
 }

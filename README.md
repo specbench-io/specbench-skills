@@ -26,11 +26,13 @@ Agents author whole YAML documents (`spec_get`, edit, `spec_apply`) and the serv
 
 Two steps: connect the Specbench MCP server, then install the skill. The skill does nothing without the server.
 
+**Claude Code users installing the plugin can skip step 1:** the plugin connects the server itself. Run `/mcp` after installing to sign in.
+
 ### 1. Connect the MCP server
 
 The server is `https://mcp.specbench.io/mcp` (streamable HTTP). Sign in with your Specbench account when your client offers it, or use a personal access token from **Personal settings → Access tokens**.
 
-**Claude Code:**
+**Claude Code (without the plugin):**
 
 ```bash
 claude mcp add --transport http specbench https://mcp.specbench.io/mcp
@@ -60,6 +62,8 @@ With a token instead: put it in an environment variable and add `--bearer-token-
 /plugin install specbench
 ```
 
+This installs the skill and connects the MCP server. Run `/mcp` to sign in.
+
 **Codex, Cursor, GitHub Copilot, Gemini CLI and 70+ other agents (`npx skills`):**
 
 ```bash
@@ -87,6 +91,7 @@ Releases follow [SemVer](https://semver.org); see [CHANGELOG.md](./CHANGELOG.md)
 
 ```
 .claude-plugin/     plugin + marketplace manifests
+.mcp.json           Specbench MCP server, connected by the Claude Code plugin
 skills/specbench/
   SKILL.md          session start, seat choice, shared interview rules
   product.md        product seat
