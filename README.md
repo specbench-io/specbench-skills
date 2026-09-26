@@ -8,7 +8,7 @@ Open-source Agent Skills that turn any MCP-compatible coding agent into a [Specb
 
 ## The skill
 
-`specbench` covers both sides of a spec, and each session starts by settling which one you are working on:
+`specbench` covers both sides of a spec, and each session starts by settling which kind of work you are doing:
 
 - **Product work:** what the software should do and why. Features and acceptance scenarios, in plain language.
 - **Engineering work:** how the system is structured. First where the boundaries and the shared language are, then the detail inside each boundary: aggregates, use cases, events, and the data that moves between them.
