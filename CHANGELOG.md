@@ -16,6 +16,9 @@ Rebuilt for Specbench's tactical model. **Breaking:** the four skills are replac
 - Finishing or discarding Proposals, completing Tasks and closing workstreams are handed back to a person by default, and performed when the user explicitly asks.
 - Connection guidance points at `https://mcp.specbench.io/mcp` with sign-in first.
 
+### Licence
+- Relicensed from Apache-2.0 to MIT. The licence now ships inside the skill folder, so installs carry it. Versions 0.1.0 and 0.2.0 remain available under Apache-2.0.
+
 ### Added
 - `loop.md` (the write loop) and `kinds.md` (every artefact kind with a schema-validated example), loaded on demand.
 

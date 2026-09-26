@@ -1,6 +1,7 @@
 ---
 name: specbench
 description: Guided spec work in Specbench through interview, from the product seat (features, acceptance scenarios, roles, glossary terms in plain language) or the engineering seat (subdomains, bounded contexts and the ubiquitous language, then aggregates, value objects, enums, use cases, event handlers, scheduled jobs, read models, data contracts and integration events inside a context), from conversation or by mapping an existing codebase. Use whenever a Specbench MCP server is connected and the user wants to create, explore or update a spec, for example "let's spec this", "write the scenarios for X", "model this domain", "where does the boundary go", "design the aggregates", "map this repo into Specbench", "where do I start?".
+license: MIT
 ---
 
 # Specbench

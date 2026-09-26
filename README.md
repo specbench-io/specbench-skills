@@ -76,4 +76,4 @@ These skills drive the Specbench MCP server and (when mapping code) read your co
 
 ## License
 
-Apache-2.0 — see [LICENSE](./LICENSE).
+MIT — see [LICENSE](./LICENSE). A copy ships inside `skills/specbench/`, so every install carries it. Versions 0.1.0 and 0.2.0 were released under Apache-2.0.
