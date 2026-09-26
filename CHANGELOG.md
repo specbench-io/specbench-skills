@@ -3,7 +3,7 @@
 All notable changes to the Specbench skills are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com); versioning: [SemVer](https://semver.org) — the version lives in `.claude-plugin/plugin.json` and is bumped on every release (Claude Code only offers updates when it changes).
 
-## [Unreleased] — planned 1.0.0
+## [1.0.0] — 2026-09-26
 
 Rebuilt for Specbench's tactical model. **Breaking:** the four skills are replaced by one skill, `specbench`. Reinstall, and remove any uploaded copies of the old skills.
 

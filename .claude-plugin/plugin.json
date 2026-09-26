@@ -1,6 +1,6 @@
 {
   "name": "specbench",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Guided spec work for Specbench: a product seat and an engineering seat that turn any MCP-compatible agent into a Specbench modelling partner. Requires the Specbench MCP server.",
   "author": {
     "name": "Specbench Limited",
