@@ -11,13 +11,10 @@
         "source": "path",
         "path": "."
       },
-      "description": "Domain modelling skills for Specbench: director (routing), engineer (contexts, language, and actors), product (features and scenarios), and brownfield (existing-codebase ingest). Requires the Specbench MCP server.",
+      "description": "Guided spec work for Specbench: one skill with a product seat (features and scenarios) and an engineering seat (strategic and tactical domain modelling), from conversation or an existing codebase. Requires the Specbench MCP server.",
       "strict": false,
       "skills": [
-        "./skills/specbench-director",
-        "./skills/specbench-engineer",
-        "./skills/specbench-product",
-        "./skills/specbench-brownfield"
+        "./skills/specbench"
       ]
     }
   ]

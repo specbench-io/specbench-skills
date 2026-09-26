@@ -3,6 +3,22 @@
 All notable changes to the Specbench skills are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com); versioning: [SemVer](https://semver.org) — the version lives in `.claude-plugin/plugin.json` and is bumped on every release (Claude Code only offers updates when it changes).
 
+## [Unreleased] — planned 1.0.0
+
+Rebuilt for Specbench's tactical model. **Breaking:** the four skills are replaced by one skill, `specbench`. Reinstall, and remove any uploaded copies of the old skills.
+
+### Changed
+- One skill, `specbench`, replaces `specbench-director`, `specbench-engineer`, `specbench-product` and `specbench-brownfield`. Each session starts by choosing a seat (product or engineering), and switching seats keeps the same workstream and Proposal. The director's routing is now that seat choice; brownfield ingest is `from-code.md`, usable from either seat.
+- The engineering seat covers the tactical kinds as first-class artefacts: Aggregates (with Entities, Domain Events and Methods), Value Objects, Enums, Data Contracts, Read Models, Use Cases, Event Handlers, Scheduled Jobs and Integration Events. It no longer writes tactical structure as prose in a context description. The strategic layer adds Subdomains and `implements`.
+- Staging follows skeleton, accept, bind: artefacts are staged as agreed, and references between them are added once a person has accepted the targets, because Specbench resolves links against accepted state only.
+- Threads are no longer described as outdated by restaging; only a person resolves them, and open threads block accept and finish.
+- The skill re-reads the Proposal before every restage, since a person's edit under review joins the Proposal.
+- Finishing or discarding Proposals, completing Tasks and closing workstreams are handed back to a person by default, and performed when the user explicitly asks.
+- Connection guidance points at `https://mcp.specbench.io/mcp` with sign-in first.
+
+### Added
+- `loop.md` (the write loop) and `kinds.md` (every artefact kind with a schema-validated example), loaded on demand.
+
 ## [0.2.0] — 2026-09-03
 
 Built for the Specbench Community Edition and its document-based MCP surface. Not compatible with earlier Specbench servers.
