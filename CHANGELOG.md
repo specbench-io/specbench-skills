@@ -9,6 +9,7 @@ Rebuilt for Specbench's tactical model. **Breaking:** the four skills are replac
 
 ### Changed
 - One skill, `specbench`, replaces `specbench-director`, `specbench-engineer`, `specbench-product` and `specbench-brownfield`. Each session starts by choosing a seat (product or engineering), and switching seats keeps the same workstream and Proposal. The director's routing is now that seat choice; brownfield ingest is `from-code.md`, usable from either seat.
+- A third seat, both, for solo builders: each Feature is worked as a vertical slice from intent to design, product first, with a coverage check both ways.
 - The engineering seat covers the tactical kinds as first-class artefacts: Aggregates (with Entities, Domain Events and Methods), Value Objects, Enums, Data Contracts, Read Models, Use Cases, Event Handlers, Scheduled Jobs and Integration Events. It no longer writes tactical structure as prose in a context description. The strategic layer adds Subdomains and `implements`.
 - Staging follows skeleton, accept, bind: artefacts are staged as agreed, and references between them are added once a person has accepted the targets, because Specbench resolves links against accepted state only.
 - Threads are no longer described as outdated by restaging; only a person resolves them, and open threads block accept and finish.
