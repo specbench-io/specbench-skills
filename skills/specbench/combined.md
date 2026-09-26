@@ -1,4 +1,4 @@
-# Both seats
+# Combined seat
 
 One person owns the why and the how. Work each Feature as a **vertical slice**, from intent through to design, before starting the next. The rules of each part come from its own file: `product.md` for steps 1 and 2, `strategic.md` for step 3, `tactical.md` for step 4.
 

@@ -12,7 +12,7 @@ Open-source Agent Skills that turn any MCP-compatible coding agent into a [Specb
 
 - **Product work:** what the software should do and why. Features and acceptance scenarios, in plain language.
 - **Engineering work:** how the system is structured. First where the boundaries and the shared language are, then the detail inside each boundary: aggregates, use cases, events, and the data that moves between them.
-- **Both, for solo builders:** one feature at a time, from why it matters through to its design, so product thinking stays on the record even when one person does everything.
+- **Combined, for solo builders:** one feature at a time, from why it matters through to its design, so product thinking stays on the record even when one person does everything.
 
 Any of them can start from an existing codebase instead of a conversation. Switching mid-session keeps the same workstream and Proposal.
 

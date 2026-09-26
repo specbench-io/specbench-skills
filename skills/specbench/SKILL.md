@@ -17,7 +17,7 @@ The work is split across files in this folder. Load each when its condition hold
 | `product.md` | in the product seat |
 | `strategic.md` | in the engineering seat, strategic layer |
 | `tactical.md` | in the engineering seat, tactical layer |
-| `both.md` | in the both seat; it loads the other seat files step by step |
+| `combined.md` | in the combined seat; it loads the other seat files step by step |
 | `from-code.md` | when the evidence is an existing codebase, in any seat |
 
 ## 1. Connect and start
@@ -32,13 +32,13 @@ Three seats. The seat decides the language you speak and the artefacts you write
 
 - **Product**: what the software should do and why. Features, Scenarios, Roles, Terms, in the product's own language with no modelling vocabulary.
 - **Engineering**: how the system is structured. Two layers: **strategic** (Subdomains, Bounded Contexts, Terms, Roles) and **tactical** (everything inside a context).
-- **Both**: one person owns the why and the how, such as a solo engineer or a founder. Each Feature is taken from intent through to its design as one vertical slice.
+- **Combined**: one person owns the why and the how, such as a solo engineer or a founder. Each Feature is taken from intent through to its design as one vertical slice.
 
 Choose on evidence, then announce the seat in one line with the reason ("This is about what users get, so I'll work in the product seat"):
 
 - Value, features, scenarios, acceptance criteria, "what should it do": product.
 - Boundaries, meanings of words, aggregates, events, "how is it structured": engineering.
-- The user builds and decides alone (a solo project, a founder, "I'm building…"), or talks about both what users get and how it is built: both.
+- The user builds and decides alone (a solo project, a founder, "I'm building…"), or talks about both what users get and how it is built: combined.
 - Greenfield idea, "where do I start?", or mixed signals with no sign of who decides: product first, since the why comes before the structure.
 - An existing codebase to map: load `from-code.md` too. It changes where evidence comes from, not the seat; mapping code usually starts in engineering.
 
@@ -90,7 +90,7 @@ Many users play both seats. Switch when the work's centre of gravity moves, not 
 
 - Product work that needs structure the model lacks (a new context, a word meaning two things) → offer engineering.
 - Engineering work leaving invariants or failed outcomes no scenario proves → offer product.
-- The user turns out to own both the why and the how → offer both.
+- The user turns out to own both the why and the how → offer combined.
 
 Finish the element in hand, announce the switch, and load the other seat's file. The workstream and Proposal carry over.
 
