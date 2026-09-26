@@ -24,25 +24,64 @@ Agents author whole YAML documents (`spec_get`, edit, `spec_apply`) and the serv
 
 ## Install
 
-**Claude Code (marketplace):**
+Two steps: connect the Specbench MCP server, then install the skill. The skill does nothing without the server.
+
+### 1. Connect the MCP server
+
+The server is `https://mcp.specbench.io/mcp` (streamable HTTP). Sign in with your Specbench account when your client offers it, or use a personal access token from **Personal settings → Access tokens**.
+
+**Claude Code:**
+
+```bash
+claude mcp add --transport http specbench https://mcp.specbench.io/mcp
+```
+
+Then run `/mcp` inside Claude Code to sign in. With a token instead: add `--header "Authorization: Bearer sbp_…"`.
+
+**Codex:**
+
+```bash
+codex mcp add specbench --url https://mcp.specbench.io/mcp
+codex mcp login specbench
+```
+
+With a token instead: put it in an environment variable and add `--bearer-token-env-var SPECBENCH_TOKEN` in place of the login step.
+
+**Claude.ai and Claude Desktop:** add a custom connector with the server URL, then sign in.
+
+**Other agents (Cursor, GitHub Copilot, Gemini CLI, …):** add a streamable HTTP MCP server with the URL above, following your agent's MCP settings.
+
+### 2. Install the skill
+
+**Claude Code (plugin marketplace):**
 
 ```bash
 /plugin marketplace add specbench-io/specbench-skills
 /plugin install specbench
 ```
 
-**Claude.ai (upload):** zip the `skills/specbench` folder and upload via Customize → Skills. Team/Enterprise org owners can provision skills organisation-wide.
+**Codex, Cursor, GitHub Copilot, Gemini CLI and 70+ other agents (`npx skills`):**
 
-**Other agents (Codex, Cursor, Copilot, …):** the skill uses the portable Agent Skills core (SKILL.md, plain Markdown) and follow the `.agents/skills/` convention. Copy `skills/specbench` into your agent's skills directory, or use `npx skills` / your agent's equivalent installer.
+```bash
+npx skills add specbench-io/specbench-skills
+```
+
+It detects your agents and asks where to install. To choose up front, pass the agent and scope, for example `npx skills add specbench-io/specbench-skills -a codex -g` for Codex at user level. Omit `-g` to install into the current project, where the skill can be committed with the repo.
+
+**Claude.ai:** zip the `skills/specbench` folder and upload it under Customize → Skills. Team and Enterprise owners can provision it for the whole organisation.
+
+**Manually:** copy `skills/specbench` into your agent's skills directory. The folder carries its own `LICENSE`.
 
 ## Updating
 
-Releases follow [SemVer](https://semver.org) — see [CHANGELOG.md](./CHANGELOG.md) for what changed.
+Releases follow [SemVer](https://semver.org); see [CHANGELOG.md](./CHANGELOG.md) for what changed.
 
-- **Claude Code:** `/plugin marketplace update specbench` — third-party marketplaces don't auto-update by default (toggle per marketplace under `/plugin` → Marketplaces).
-- **`npx skills` installs (any agent):** `npx skills update`
-- **Claude.ai uploads:** uploads are point-in-time copies — re-zip and re-upload `skills/specbench` to update.
-- **Manually copied folders (Codex, Copilot, …):** re-copy, or switch to `npx skills add specbench-io/specbench-skills` and get `npx skills update` from then on.
+- **Claude Code plugin:** `/plugin marketplace update specbench`. Third-party marketplaces don't auto-update by default (toggle per marketplace under `/plugin` → Marketplaces).
+- **`npx skills`:** `npx skills update`.
+- **Claude.ai uploads:** uploads are point-in-time copies; re-zip and re-upload `skills/specbench`.
+- **Manual copies:** re-copy, or switch to `npx skills add` and use `npx skills update` from then on.
+
+**Upgrading from 0.2 or earlier:** remove the old `specbench-director`, `specbench-engineer`, `specbench-product` and `specbench-brownfield` skills (`npx skills remove`, or delete the uploaded or copied folders). Left installed, they compete with `specbench` for the same requests.
 
 ## Layout
 
