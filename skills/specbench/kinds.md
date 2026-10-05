@@ -10,6 +10,8 @@ Field reference and one valid example per kind. UUIDs in examples are placeholde
 | Structure | `aggregate`, `value-object`, `enum` | always inside one Bounded Context |
 | Data shapes | `data-contract`, `read-model` | inside a context, or standalone |
 | Application flows | `use-case`, `event-handler`, `scheduled-job` | inside a context, or standalone |
+| Services | `application-service`, `domain-service` | inside a context, or standalone |
+| Ports | `interface`, and the `adapter` that implements it | an Interface: inside a context, or standalone; an Adapter reads as its Interface's context |
 | Cross-context contract | `integration-event` | owned by the one context that publishes it |
 | Product | `feature` (with Scenarios and Steps) | project-wide |
 
@@ -24,7 +26,9 @@ bounded-context  <-- bounded-context-id --  aggregate, value-object, enum (requi
                                             event-handler, scheduled-job, integration-event (optional)
 actor  <-- roles (name or id) --  use-case
 aggregate domain event | integration-event  <-- trigger --  event-handler
-flow steps --tags--> method, method outcome, read model, aggregate, integration event
+interface  <-- implements --  application-service (whole service, then per Method)
+interface  <-- interface (required, fixed) --  adapter  -- target -->  application-service (another context) | infrastructure (free text)
+flow and service steps --tags--> method, method outcome, read model, aggregate, integration event
 typed fields --ref by id--> aggregate, own entity, value-object, enum, read-model, data-contract
 ```
 
@@ -32,11 +36,11 @@ Every one of these resolves against accepted state only (see `loop.md`, skeleton
 
 ## Common fields
 
-Every kind takes `id`, `revision`, `renamed-from`, `archived` and `description` (≤4000). `summary` exists on `subdomain`, `bounded-context`, `actor`, `aggregate`, `value-object`, `enum`, `data-contract` and `read-model`; the flows, `term`, `feature` and `integration-event` have none.
+Every kind takes `id`, `revision`, `renamed-from`, `archived` and `description` (≤4000). `summary` exists on `subdomain`, `bounded-context`, `actor`, `aggregate`, `value-object`, `enum`, `data-contract` and `read-model`; the flows, `term`, `feature`, `integration-event` and the service and port kinds have none.
 
 ## Uniqueness
 
-Names are unique case-insensitively among live artefacts of the kind: across the project for `subdomain`, `bounded-context`, `actor` and `feature` (by title); within the owning context, or among context-less peers, for every other kind.
+Names are unique case-insensitively among live artefacts of the kind: across the project for `subdomain`, `bounded-context`, `actor` and `feature` (by title); within the owning context, or among context-less peers, for every other kind; among the Adapters of one Interface for `adapter`.
 
 ## The type system
 
@@ -56,7 +60,7 @@ nullable: true                                     # optional on any node
 - `ref-name` appears on export and is ignored on input.
 - Read Models and Data Contracts never type stored data, and never contain themselves, directly or transitively.
 
-Which `entity-type` each surface allows:
+Service and port Methods never take an Entity Ref. Which `entity-type` each surface allows:
 
 | Surface | Aggregate | own Entity | ValueObject | Enum | ReadModel | DataContract |
 |---|---|---|---|---|---|---|
@@ -67,31 +71,38 @@ Which `entity-type` each surface allows:
 | Read Model field | no, carry an Id | no | yes | yes | yes | no |
 | Use Case input, outcome `returns` | yes | no | yes | yes | yes | yes |
 | Integration Event field | no, carry an Id | no | yes | yes | no | yes |
+| Application Service or Interface Method input, `returns` | yes | no | yes | yes | yes | yes |
+| Domain Service Method input | yes | no | yes | yes | no | no |
+| Domain Service Method outcome `returns` | yes | no | yes | yes | yes | yes |
 
 ## Step tags
 
-Step `text` in Methods and flows embeds `{{kind:value}}` tags:
+Step `text` in Methods, flows and Adapters embeds `{{kind:value}}` tags:
 
 | Tag | Used in | Value |
 |---|---|---|
-| `{{input:Name}}` | Method, Use Case | own Input |
-| `{{outcome:Name}}` | Method, Use Case | own Outcome. A failed one makes the step a guard; a successful one ends the path. At most one per step. |
-| `{{method:Ctx/Host.Method}}` | Command Use Case, Event Handler, Scheduled Job | a Method on an Aggregate or Value Object root, never on a child Entity |
-| `{{method-outcome:Ctx/Host.Method.Outcome}}` | same | handles that Method's Outcome; an untagged failed Outcome shows as unhandled |
-| `{{read-model:Ctx/Name}}` | flows | reads a Read Model |
-| `{{aggregate:Ctx/Name}}` | flows | mentions an Aggregate |
-| `{{integration-event:Ctx/Name}}` | Command Use Case, Event Handler, Scheduled Job | publishes it |
+| `{{input:Name}}` | Method, Use Case, Adapter | own Input; in an Adapter, the Interface Method's Input |
+| `{{outcome:Name}}` | Method, Use Case | own Outcome. A failed one makes the step a guard; a successful one ends the path. At most one per step. Never in an Adapter. |
+| `{{method:Ctx/Host.Method}}` | flows, Application and Domain Service Methods, Adapters | a Method on an Aggregate or Value Object root (never a child Entity), an Application Service, a Domain Service or an Interface. Never an Adapter. |
+| `{{method-outcome:Ctx/Host.Method.Outcome}}` | same | handles that Method's Outcome; an untagged failed Outcome shows as unhandled. Interface Methods have no Outcomes to tag. |
+| `{{read-model:Ctx/Name}}` | flows, services, Adapters | reads a Read Model |
+| `{{aggregate:Ctx/Name}}` | flows, services, Adapters | mentions an Aggregate |
+| `{{integration-event:Ctx/Name}}` | Command Use Case, Event Handler, Scheduled Job, Application Service, Adapter | publishes it |
 | `{{field:Name}}` | Event Handler | a field of the trigger's payload |
 
 - `Ctx` is the Bounded Context name; use `Project/Name` for a context-less artefact. An unqualified name works when unique, and fails with `spec.flow.step.tag.ambiguous` otherwise.
 - Tags are stored as ids, so they follow renames.
 - A flow never tags another Use Case, Event Handler or Scheduled Job.
+- Aggregate and Value Object Methods tag only their own Inputs and Outcomes.
+- A Query may tag Application Service, Domain Service, Interface and Value Object Methods, but never an Aggregate Method or an Integration Event.
+- A Domain Service step never tags an Aggregate, Application Service or Interface Method (or their Outcomes), nor an Integration Event: `domain_service.method.step.not_allowed`.
+- Callers tag the Interface Method, never what implements it.
 - Steps take `indent: 0..10` for nesting.
 - A flow's Domain Events are derived from the Method Outcomes it tags; they are never written on the flow.
 
 ## Replaced-whole lists
 
-These lists are replaced by what you send, so always send the full list: domain-event `payload`, entity `properties` and `invariants`, method `inputs`, `steps` and `outcomes`, every flow's `steps`, use-case `inputs`, `outcomes` and `roles`, integration-event `fields`, bounded-context `implements`. Elsewhere a partial list adds or updates and never reorders.
+These lists are replaced by what you send, so always send the full list: domain-event `payload`, entity `properties` and `invariants`, method `inputs`, `steps` and `outcomes`, every flow's `steps`, use-case `inputs`, `outcomes` and `roles`, integration-event `fields`, bounded-context and application-service `implements`, and on every service, Interface and Adapter Method its `inputs`, `steps` and (where it has them) `outcomes`. Elsewhere a partial list adds or updates and never reorders.
 
 ---
 
@@ -437,6 +448,120 @@ fields:
     type: {kind: Ref, ref: {entity-type: ValueObject, entity-id: 0190a1b2-0000-7000-8000-000000000020}}
 ```
 
+## `domain-service`
+
+A question the domain answers that no single Aggregate owns. It holds no state and emits nothing.
+
+- `bounded-context-id` optional. No `summary`. `methods`: `{id?, name, description?, inputs[], steps[], outcomes[]}`; Outcomes are `{name, success?, message?, returns?}`, with no `raises` and no `code`.
+- Inputs never take a Read Model or Data Contract; `returns` may.
+- Steps may tag own Inputs and Outcomes, Value Object and Domain Service Methods, Read Models and Aggregates. Nothing that changes state or publishes.
+
+```yaml
+spec-format: 1
+kind: domain-service
+name: Pricing
+bounded-context-id: 0190a1b2-0000-7000-8000-000000000001
+methods:
+  - name: Quote Shipping
+    inputs:
+      - name: Weight
+        type: {kind: Primitive, primitive: Number}
+      - name: Destination
+        type: {kind: Primitive, primitive: Text}
+    steps:
+      - text: "Refuse when {{input:Destination}} is outside the delivery zones: {{outcome:Undeliverable}}"
+      - text: "Price {{input:Weight}} by the zone's rate: {{outcome:Quoted}}"
+    outcomes:
+      - name: Undeliverable
+        success: false
+      - name: Quoted
+        returns: {kind: Ref, ref: {entity-type: ValueObject, entity-id: 0190a1b2-0000-7000-8000-000000000020}}
+```
+
+## `application-service`
+
+A door other code calls, such as another Bounded Context. Its Methods orchestrate the work behind the call.
+
+- `bounded-context-id` optional. No `summary`. `implements`: Interfaces, qualified `Ctx/Name` (`Project/Name` when context-less), in any context, the whole set. Dropping one clears every Method link to it.
+- `methods`: `{id?, name, description?, implements?, inputs[], steps[], outcomes[]}`. Outcomes are `{name, success?, message?, returns?}`, with no `code`. Inputs and `returns` may be a Read Model or Data Contract.
+- Method `implements`: one Method of an Interface the service implements, `Ctx/Interface.Method`. Each Interface Method is implemented by at most one Method. Adding an Interface to `implements` copies its unimplemented Methods in, with matching Inputs and a single `Success` Outcome.
+- Signatures may drift from the Interface; drift is shown, never refused. In step means the same Inputs (by name and type) and every successful Outcome returns the Interface Method's `returns`.
+- Steps take the full flow tag set, including other Application Services and Integration Events.
+- Service Methods carry no Command or Query label.
+
+```yaml
+spec-format: 1
+kind: application-service
+name: Stock Reservations
+bounded-context-id: 0190a1b2-0000-7000-8000-000000000003
+implements: [Ordering/Stock]
+methods:
+  - name: Reserve
+    implements: Ordering/Stock.Reserve
+    inputs:
+      - name: Product Id
+        type: {kind: Primitive, primitive: Id}
+      - name: Quantity
+        type: {kind: Primitive, primitive: Number}
+    steps:
+      - text: "Call {{method:Inventory/Stock Item.Reserve}} for {{input:Product Id}} and {{input:Quantity}}"
+      - text: "If {{method-outcome:Inventory/Stock Item.Reserve.Insufficient}}, end with {{outcome:Insufficient}}"
+        indent: 1
+      - text: "End with {{outcome:Reserved}}"
+    outcomes:
+      - name: Insufficient
+        success: false
+      - name: Reserved
+        returns: {kind: Primitive, primitive: Id}
+```
+
+## `interface`
+
+The shape a Bounded Context needs from beyond its own model, in its own language. It never says how, nor how a call fails.
+
+- `bounded-context-id` optional: the context that needs it. No `summary`.
+- `methods`: `{id?, name, description?, inputs[], returns?}`. No steps and no Outcomes. No `returns` means it answers nothing. Inputs and `returns` may be a Read Model or Data Contract.
+- Implemented by Application Services (any context) and Adapters. Callers tag `{{method:Ctx/Interface.Method}}`; what implements and what calls it are derived.
+
+```yaml
+spec-format: 1
+kind: interface
+name: Stock
+bounded-context-id: 0190a1b2-0000-7000-8000-000000000001
+methods:
+  - name: Reserve
+    inputs:
+      - name: Product Id
+        type: {kind: Primitive, primitive: Id}
+      - name: Quantity
+        type: {kind: Primitive, primitive: Number}
+    returns: {kind: Primitive, primitive: Id}
+```
+
+## `adapter`
+
+Implements exactly one Interface and translates: to another context's Application Service, or to infrastructure. It reads as its Interface's context.
+
+- `name` is unique among the Adapters of the same Interface. No `bounded-context-id` and no `summary`.
+- `interface`: `Ctx/Name`. Required to create; it never changes.
+- `target`: `{application-service: Ctx/Name}` in a context other than the Interface's (`adapter.target.same_context` otherwise), or `{infrastructure: <free text ≤200>}`, or null.
+- `methods`: `{implements: <Interface Method name>, steps?, note?}`, at most one per Interface Method. It has no Methods of its own: the signature is always the Interface's. Entries the list leaves out stay as they are.
+- Steps tag the Interface Method's Inputs and any flow tag, never an Outcome. Nothing tags an Adapter.
+
+```yaml
+spec-format: 1
+kind: adapter
+name: Inventory Stock
+interface: Ordering/Stock
+target:
+  application-service: Inventory/Stock Reservations
+methods:
+  - implements: Reserve
+    steps:
+      - text: "Call {{method:Inventory/Stock Reservations.Reserve}} with {{input:Product Id}} and {{input:Quantity}}"
+    note: Ordering's Product Id is Inventory's SKU id.
+```
+
 ## Errors worth recognising
 
 | Code | Meaning and fix |
@@ -453,3 +578,11 @@ fields:
 | `<kind>.name.taken` | Name collides with a live artefact in the same scope. |
 | `<kind>.revision_conflict` | Someone else changed it. Re-read, re-derive, re-apply. |
 | `spec.unknown_id` | The `id` matches nothing. Omit it to create. |
+| `domain_service.method.step.not_allowed` | A Domain Service step called something that changes state or publishes. Move it to an Application Service or Use Case. |
+| `*.method.steps_not_allowed`, `*.method.outcomes_not_allowed` | Interface Methods take neither. |
+| `*.method.implements.not_allowed` | Only Application Service Methods take `implements`. |
+| `application_service.method.implements.not_implemented` | Add the Interface to the service's `implements` first. |
+| `application_service.method.implements.taken` | Another Method already implements that Interface Method. |
+| `unknown-interface`, `adapter.interface.not_found` | The Interface is missing or only staged (bind pass). |
+| `same-context`, `adapter.target.same_context` | An Adapter's Application Service target must sit in another context. |
+| `adapter.method.step.outcome` | Adapter steps tag no Outcomes. |

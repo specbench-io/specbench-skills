@@ -3,6 +3,18 @@
 All notable changes to the Specbench skills are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com); versioning: [SemVer](https://semver.org) — the version lives in `.claude-plugin/plugin.json` and is bumped on every release (Claude Code only offers updates when it changes).
 
+## [1.1.0] — 2026-10-05
+
+### Added
+- The engineering seat models services and ports: Application Services (what other code calls), Domain Services (questions no single Aggregate owns, which only answer), Interfaces (what a context needs from beyond its own model) and the Adapters that implement them. `kinds.md` documents each kind with a schema-validated example, the type surfaces their Methods allow, which steps may tag which Methods, and the errors worth recognising.
+- `tactical.md` adds a fourth stage, reaching out, guidance for choosing Use Case or Application Service, Aggregate Method or Domain Service, and Interface or Integration Event, and skeleton and bind rows for the new kinds.
+- `from-code.md` maps service classes, stateless domain policies, ports and port implementations onto the new kinds.
+- `from-code.md` picks one of three approaches to an existing codebase, announced to the user. **Survey** finds the boundaries breadth-first, stopping at each module's front door, with agreed scope recorded on the workstream and each candidate context labelled Module, Grouping or Interpretation. **Drill** maps one feature depth-first: agree its purpose, trace to the leaves, agree a trace map (the code's own names, wiring, a fate per node), then stage from the bottom in rounds of about 10 artefacts. Seams are modelled as Interfaces; plumbing is collapsed only by agreement. **Add** designs new behaviour top-down and drills only the existing code it touches, staging that baseline first.
+
+### Changed
+- `from-code.md`'s slice loop is replaced by the three approaches. Roles now include anyone an access check lets act, such as holders of a secret link or token.
+- Flows may now reach another context through an Interface the calling context owns, implemented by an Adapter onto the other context's Application Service, as well as by publishing an Integration Event.
+
 ## [1.0.0] — 2026-09-26
 
 Rebuilt for Specbench's tactical model. **Breaking:** the four skills are replaced by one skill, `specbench`. Reinstall, and remove any uploaded copies of the old skills.

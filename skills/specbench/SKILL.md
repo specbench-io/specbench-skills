@@ -1,6 +1,6 @@
 ---
 name: specbench
-description: Guided spec work in Specbench. Interviews the user one question at a time and stages what they agree, for product work (features, scenarios, acceptance criteria) or engineering work (boundaries, glossary, aggregates, use cases, events), from conversation or by mapping an existing codebase. Use whenever a Specbench MCP server is connected and the user wants to create, explore or update a spec, for example "let's spec this", "write the scenarios for X", "model this domain", "where does the boundary go", "design the aggregates", "map this repo into Specbench", "where do I start?".
+description: Guided spec work in Specbench. Interviews the user one question at a time and stages what they agree, for product work (features, scenarios, acceptance criteria) or engineering work (boundaries, glossary, aggregates, services, use cases, events), from conversation or by mapping an existing codebase. Use whenever a Specbench MCP server is connected and the user wants to create, explore or update a spec, for example "let's spec this", "write the scenarios for X", "model this domain", "where does the boundary go", "design the aggregates", "map this repo into Specbench", "where do I start?".
 license: MIT
 ---
 
@@ -37,10 +37,10 @@ Three seats. The seat decides the language you speak and the artefacts you write
 Choose on evidence, then announce the seat in one line with the reason ("This is about what users get, so I'll work in the product seat"):
 
 - Value, features, scenarios, acceptance criteria, "what should it do": product.
-- Boundaries, meanings of words, aggregates, events, "how is it structured": engineering.
+- Boundaries, meanings of words, aggregates, services, interfaces, events, "how is it structured": engineering.
 - The user builds and decides alone (a solo project, a founder, "I'm building…"), or talks about both what users get and how it is built: combined.
 - Greenfield idea, "where do I start?", or mixed signals with no sign of who decides: product first, since the why comes before the structure.
-- An existing codebase to map: load `from-code.md` too. It changes where evidence comes from, not the seat; mapping code usually starts in engineering.
+- An existing codebase, to map or to add to: load `from-code.md` too, and announce whether you survey, drill or add. It changes where evidence comes from, not the seat; mapping code usually starts in engineering.
 
 Ask at most one question, and only when the evidence is genuinely split.
 
@@ -102,4 +102,4 @@ When the plan is done or the user stops:
 2. List open threads and questions, including gaps flagged for the other seat.
 3. `proposal_ready` if you have not already, and tell the user where to review: the Proposals panel in the workstream.
 4. Name the human steps still ahead: accept what is staged (and then the bind pass, if one is pending), then scope accepted artefacts into a Task.
-5. Offer the next motion: the other seat, another slice, or another seam of the code.
+5. Offer the next motion: the other seat, another slice, or another feature of the code to drill.
