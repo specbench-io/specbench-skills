@@ -102,7 +102,7 @@ Step `text` in Methods, flows and Adapters embeds `{{kind:value}}` tags:
 
 ## Replaced-whole lists
 
-These lists are replaced by what you send, so always send the full list: domain-event `payload`, entity `properties` and `invariants`, method `inputs`, `steps` and `outcomes`, every flow's `steps`, use-case `inputs`, `outcomes` and `roles`, integration-event `fields`, bounded-context and application-service `implements`, and on every service, Interface and Adapter Method its `inputs`, `steps` and (where it has them) `outcomes`. Elsewhere a partial list adds or updates and never reorders.
+These lists are replaced by what you send, so always send the full list: domain-event `payload`, entity `properties` and `invariants`, method `inputs`, `steps` and `outcomes`, every flow's `steps`, use-case `inputs`, `outcomes` and `roles`, integration-event `fields`, bounded-context and application-service `implements`, and on every service, Interface and Adapter Method its `inputs`, `steps` and (where it has them) `outcomes`. Elsewhere a partial list adds or updates and never reorders. Until the server merges every list by key, follow `loop.md` and send any list you touch in full, not only these.
 
 ---
 

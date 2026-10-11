@@ -85,7 +85,7 @@ Releases follow [SemVer](https://semver.org); see [CHANGELOG.md](./CHANGELOG.md)
 - **Claude.ai uploads:** uploads are point-in-time copies; re-zip and re-upload `skills/specbench`.
 - **Manual copies:** re-copy, or switch to `npx skills add` and use `npx skills update` from then on.
 
-**Upgrading from 0.2 or earlier:** remove the old `specbench-director`, `specbench-engineer`, `specbench-product` and `specbench-brownfield` skills (`npx skills remove`, or delete the uploaded or copied folders). Left installed, they compete with `specbench` for the same requests.
+**Upgrading from 0.2 or earlier:** remove the old `specbench-director`, `specbench-engineer`, `specbench-product` and `specbench-brownfield` skills (`npx skills remove`, or delete the uploaded or copied folders). Left installed, they compete with `specbench` for the same requests. If you added the Claude Code marketplace before 1.0, run `/plugin marketplace update specbench` too: a marketplace that has never been updated still offers the old skills, and `specbench-brownfield` is picked for "map this repo".
 
 ## Layout
 

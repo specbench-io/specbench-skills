@@ -37,6 +37,7 @@ Stage 4 only arises when a flow needs something the context does not own. Work a
 - **Flows stay home.** A flow calls Methods in its own context. When behaviour needs another context to act, either publish an Integration Event and model the reaction as an Event Handler there, or, when it needs the answer now, call an Interface this context owns and implement it with an Adapter onto the other context's Application Service. A tag of another context's Aggregate Method is a smell to raise with the user.
 - **Domain Services only answer.** When a Domain Service step would change state or publish, the work belongs in an Aggregate Method, orchestrated by a Use Case or Application Service.
 - **Interfaces say what, never how.** An Interface Method has Inputs and an optional `returns`, nothing more. How a call fails belongs to the implementer: Outcomes on the Application Service, steps and a note on the Adapter.
+- **One Outcome per step.** A step tags at most one Outcome, so a guard pair becomes two steps: "If the booking is missing, {{outcome:Not Found}}", then "If it belongs to someone else, {{outcome:Forbidden}}". Guards apply in step order, so put them in the order the code checks them.
 - **Outcomes are observable.** Each Outcome names what a caller sees (`message`, and `code` on a Use Case), never a hidden flag.
 
 ## Skeleton and bind
