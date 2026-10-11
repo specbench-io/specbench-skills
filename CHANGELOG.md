@@ -8,7 +8,7 @@ Format: [Keep a Changelog](https://keepachangelog.com); versioning: [SemVer](htt
 Fixes from onboarding an unfamiliar codebase (about 320 artefacts) with the skill.
 
 ### Fixed
-- **Partial lists no longer delete data.** `loop.md` now says to send any list you change in full: ordered lists (steps, payloads, invariants, entity properties, inputs, outcomes, fields), a Term's `aka` and `avoid`, and every *replaced whole* list. A partial list replaces the whole list, even when its items carry ids, and the apply still reports `Applied`. This rule is temporary, until the server merges every list by key.
+- **Partial lists no longer delete data.** `loop.md` now spells out that a *replaced whole* list (steps, payloads, invariants, entity properties, inputs, outcomes, fields) becomes exactly what you send, even when its items carry ids, and the apply still reports `Applied`. As a temporary rule, until the server merges every list by key, the skill sends any list it changes in full.
 - After changing a list, the skill counts the staged list in `proposal_get` against what it sent.
 - `Applied` with an unchanged Proposal revision is reported to the user as a no-op.
 - The skill calls `proposal_open` again whenever a session resumes, and never reuses a cached Proposal id. A person may have finished the old Proposal in the meantime.
