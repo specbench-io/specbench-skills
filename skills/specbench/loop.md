@@ -6,6 +6,8 @@ Specbench is authored as whole YAML documents, one per artefact. Read the docume
 
 Detect Specbench by its tool names (`project_list`, `spec_get`, `spec_apply`, `proposal_open`), not by prefix. The prefix depends on what the user named the connection.
 
+More than one server may match, for example a production and a development connection. Call `project_list` on each and work in the one that holds the project. A server that fails auth (a 401) is not a blocker: tell the user in one line ("DEV isn't signed in; using PROD") and carry on with the others. When both hold a project of that name, ask which.
+
 ## Workstream identifiers
 
 Tools name a workstream three ways. Read both values from `workstream_list` once and keep them.
@@ -21,16 +23,18 @@ Tools name a workstream three ways. Read both values from `workstream_list` once
    - Confirm it in one line with its name and description, even when it is the only project ("Working in *Storefront*, the customer ordering system. Right?"). Wait for the answer before any write.
    - When the project the user means is not listed, it may be in another Organization: ask them to switch Organization in the Specbench app and try again. New projects are also created in the app.
 2. `workstream_list` with `state: [Active]`. Ask which workstream to work in, or propose opening one named for the task (`workstream_open`, confirmed first, then `workstream_list` again for its number and GUID). A workstream is a place, not a ticket. Reuse one when it fits, and keep two unrelated efforts in two workstreams.
-3. `proposal_open`. It opens the workstream's one Proposal, or returns the one already open. Keep its `proposalId`.
+3. `proposal_open`. It opens the workstream's one Proposal, or returns the one already open. Keep its `proposalId` for this session only. Whenever a session resumes (a new conversation, a summary, a gap while the user was in the app), call `proposal_open` again before the next apply: a person may have finished the old Proposal in the meantime, and a stale id fails with `404 No open Proposal with this id`.
 4. `spec_get` with `workstream` set. This is the trunk plus the workstream's **accepted** changes. Omit `artefacts` to load everything, pass a kind (`aggregate`) for one kind, or `kind/Name` (`bounded-context/Ordering`, `feature/<title>`) for one artefact. A name selector for a context-scoped kind resolves only when the name is unique across contexts; otherwise load the kind and filter.
 5. `proposal_get`. This is the only place staged content is visible: each artefact's latest `document` (with server ids), its `state` (Pending, Accepted, Withdrawn, Superseded) and its `threads`.
 
 ## Per artefact, on agreement
 
 1. **Take the current document.** Staged artefacts come from `proposal_get` (the latest revision's `document`); everything else comes from `spec_get`. Re-read `proposal_get` before every restage: a person's edit to a staged artefact joins the Proposal as its next revision, so the document may have changed since your last turn.
-2. **Edit only the keys you are asserting.** An omitted key claims nothing, and omission never deletes. Lists marked *replaced whole* in `kinds.md` are the exception: send the full list.
+2. **Edit only the keys you are asserting.** An omitted key claims nothing, and omission never deletes. Lists are the exception.
+   - **Interim rule, until the server merges every list by key: when you send a list, send all of it.** Copy the whole list from the current document and make your edit inside it. This covers ordered lists (steps, payloads, invariants, entity properties, inputs, outcomes, fields) and short value lists (a Term's `aka` and `avoid`), and every list marked *replaced whole* in `kinds.md`. A partial list replaces the whole list, even when each item carries its `id`, and the apply still says `Applied`: sending one edited step of a 37-step Use Case deletes the other 36.
+   - Leaving a list out entirely keeps it. Send a list only when you are changing it.
 3. **`spec_apply`** with `projectId`, `workstreamNumber`, `proposalId` and `documents` (up to 50 per call). Hand back the `revision` you read. Read every per-document result: a failed document fails alone, so fix it and re-apply it. A revision conflict means another writer touched the artefact: re-read, re-derive, re-apply.
-4. **Read new ids from `proposal_get`.** Apply results do not return ids, and `spec_get` does not show staged content.
+4. **Read new ids from `proposal_get`, and check what landed.** Apply results do not return ids, and `spec_get` does not show staged content. After changing a list, count it in the staged `document` against what you sent. When the result says `Applied` but the Proposal's `revision` has not moved, nothing was staged: tell the user it was a no-op, and work out why before trying again.
 5. **Say it in one line.** "Staged: Aggregate *Order*, a customer's request to buy products."
 
 ## Document rules

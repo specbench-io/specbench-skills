@@ -3,6 +3,21 @@
 All notable changes to the Specbench skills are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com); versioning: [SemVer](https://semver.org) — the version lives in `.claude-plugin/plugin.json` and is bumped on every release (Claude Code only offers updates when it changes).
 
+## [1.1.1] — 2026-10-11
+
+Fixes from onboarding an unfamiliar codebase (about 320 artefacts) with the skill.
+
+### Fixed
+- **Partial lists no longer delete data.** `loop.md` now says to send any list you change in full: ordered lists (steps, payloads, invariants, entity properties, inputs, outcomes, fields), a Term's `aka` and `avoid`, and every *replaced whole* list. A partial list replaces the whole list, even when its items carry ids, and the apply still reports `Applied`. This rule is temporary, until the server merges every list by key.
+- After changing a list, the skill counts the staged list in `proposal_get` against what it sent.
+- `Applied` with an unchanged Proposal revision is reported to the user as a no-op.
+- The skill calls `proposal_open` again whenever a session resumes, and never reuses a cached Proposal id. A person may have finished the old Proposal in the meantime.
+
+### Added
+- Choosing a server: when more than one Specbench server is connected, the skill calls `project_list` on each and uses the one that holds the project. A server that fails auth is reported, and the skill carries on with the others.
+- `tactical.md`: one Outcome per step, so guard pairs ("missing → Not Found; not yours → Forbidden") are written as separate steps.
+- README: a marketplace added before 1.0 must be updated, or it still offers the removed `specbench-brownfield` skill.
+
 ## [1.1.0] — 2026-10-05
 
 ### Added
